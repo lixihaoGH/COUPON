@@ -1,0 +1,78 @@
+.panel-column{
+    float: left;
+}
+
+.panel-label{
+    width: 100px;
+    float:left;
+}
+
+.panel-input{
+    width: 150px;
+   height: 30px;
+}
+
+.coupon_panel_span{
+    margin-right: 20px;
+}
+
+.coupon_goods_table{
+    width: 800px;
+    height: 400px;
+    margin: 10px 0px 0px 0px;
+}
+
+#panel-label{
+    width: 150px;
+}
+
+.restriction_description{
+    margin: 20px 0px 0px 0px;
+}
+
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+#restriction_description{
+    margin-top: 200px;
+    width: 450px;
+    height: 30px;
+}
+
+#description{
+    width: 250px;
+    height: 30px;
+}
+
+.coupon_sumit_btn{
+    margin: 50px 0px 0px 20px;
+    width: 100px;
+}
+
+#unuse-checkbox{
+    height:60px;
+    margin:200px 0px 0px 0px;
+}
+
+#createnewcoupon-div{
+    height: 1800px;
+    text-align:left;
+}
+
+.goods-amount{
+    width: 60px;
+}
+
+.newModalStyle{
+
+}
+
+.newModalDialog{
+    width: 800px;
+    height: 700px;
+}
+
+
+

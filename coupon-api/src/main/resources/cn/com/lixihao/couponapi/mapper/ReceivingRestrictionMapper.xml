@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.lixihao.couponapi.mapper.ReceivingRestrictionMapper">
+    <sql id="tableName">
+        t_coupon_receiving_restriction
+    </sql>
+    <sql id="fields">
+        release_id
+        ,box_day_max
+        ,box_total_max
+        ,phone_day_max
+        ,phone_total_max
+    </sql>
+
+    <select id="get"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.ReceivingRestrictionCondition"
+            resultType="cn.com.lixihao.couponapi.entity.condition.ReceivingRestrictionCondition">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE
+        release_id = #{release_id}
+    </select>
+
+    <insert id="insert"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.ReceivingRestrictionCondition">
+        INSERT INTO
+        <include refid="tableName"/>
+        (
+        <include refid="fields"/>
+        )
+        VALUES
+        (#{release_id},#{box_day_max},#{box_total_max},#{phone_day_max},#{phone_total_max})
+    </insert>
+    <update id="update" parameterType="cn.com.lixihao.couponapi.entity.condition.ReceivingRestrictionCondition">
+        UPDATE
+            <include refid="tableName" />
+        <set>
+            <if test="box_day_max != null">
+                box_day_max = #{box_day_max},
+            </if>
+            <if test="box_total_max != null">
+                box_total_max = #{box_total_max},
+            </if>
+            <if test="phone_day_max != null">
+                phone_day_max = #{phone_day_max},
+            </if>
+            <if test="phone_total_max != null">
+                phone_total_max = #{phone_total_max},
+            </if>
+        </set>
+        WHERE
+            release_id = #{release_id}
+    </update>
+
+    <delete id="delete" parameterType="cn.com.lixihao.couponapi.entity.condition.ReceivingRestrictionCondition">
+        DELETE
+        FROM
+              <include refid="tableName"/>
+        WHERE
+              release_id = #{release_id}
+    </delete>
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.lixihao.couponapi.mapper.StockMapper">
+    <sql id="tableName">
+          t_coupon_stock
+    </sql>
+    <sql id="fields">
+        coupon_stock_id
+        ,coupon_stock_name
+        ,DATE_FORMAT(create_time,"%Y-%m-%d %H:%i:%s") create_time
+        ,preferential_type
+        ,preferential_amount
+        ,discount
+    </sql>
+
+    <select id="get" parameterType="cn.com.lixihao.couponapi.entity.condition.StockCondition"
+        resultType="cn.com.lixihao.couponapi.entity.result.StockResponse">
+        SELECT
+            id,<include refid="fields" />
+        FROM
+            <include refid="tableName"/>
+        WHERE
+            1 = 1
+            <if test="coupon_stock_id != null">
+                AND coupon_stock_id = #{coupon_stock_id}
+            </if>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+    </select>
+
+    <select id="getList" parameterType="cn.com.lixihao.couponapi.entity.condition.StockCondition"
+            resultType="cn.com.lixihao.couponapi.entity.result.StockResponse">
+        SELECT
+            t1.id,
+            t1.<include refid="fields" />,
+            t2.effective_time,
+        t2.expired_time,
+        t2.effective_duration
+        FROM
+            <include refid="tableName"/> t1
+        LEFT JOIN t_coupon_yougou_restriction t2
+            ON t1.coupon_stock_id = t2.coupon_stock_id
+        WHERE
+            1 = 1
+            <if test="coupon_stock_name != null" >
+                AND instr(coupon_stock_name, #{coupon_stock_name}) &gt; 0
+            </if>
+            <if test="coupon_stock_id != null">
+                AND coupon_stock_id = #{coupon_stock_id}
+            </if>
+        LIMIT #{page_index},#{page_size}
+    </select>
+
+    <insert id="insert" parameterType="cn.com.lixihao.couponapi.entity.condition.StockCondition"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT
+            <include refid="tableName" />
+        ( coupon_stock_id,coupon_stock_name,create_time,preferential_type,preferential_amount,discount)
+        VALUES
+            (#{coupon_stock_id},#{coupon_stock_name},#{create_time},#{preferential_type},#{preferential_amount},#{discount})
+    </insert>
+
+    <delete id="delete" parameterType="cn.com.lixihao.couponapi.entity.condition.StockCondition">
+        DELETE
+        FROM
+            <include refid="tableName"/>
+        WHERE
+            coupon_stock_id = #{coupon_stock_id}
+    </delete>
+
+    <update id="update" parameterType="cn.com.lixihao.couponapi.entity.condition.StockCondition">
+        UPDATE
+            <include refid="tableName" />
+        <set>
+            <if test="coupon_stock_name != null">
+                coupon_stock_name = #{coupon_stock_name},
+            </if>
+            <if test="preferential_type != null">
+                preferential_type = #{preferential_type},
+            </if>
+            <if test="preferential_amount != null">
+                preferential_amount = #{preferential_amount},
+            </if>
+            <if test="discount != null" >
+                discount = #{discount},
+            </if>
+        </set>
+        WHERE
+            coupon_stock_id = #{coupon_stock_id}
+    </update>
+    
+    <select id="getCount" parameterType="cn.com.lixihao.couponapi.entity.condition.StockCondition"
+            resultType="Integer">
+        SELECT
+            COUNT(id)
+        FROM
+            <include refid="tableName"/>
+        WHERE
+            1 = 1
+            <if test="coupon_stock_name != null ">
+                AND INSTR(coupon_stock_name, #{coupon_stock_name}) &gt; 0
+            </if>
+    </select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+    <!-- 指明满足“/*”的页面，将被“/WEB-INF/pages/derorator/decorator.jsp”所装饰 -->
+    <mapping path="/**" decorator="/decorator"/>
+    <!-- 指明满足“/login.jsp*”的页面，将被排除，不被装饰 -->
+    <!-- 修改-红包列表页面，弹出红包详情页面 -->
+    <mapping path="/coupon/get.json" exclue="true"/>
+
+    <mapping path="/res/*" exclue="true"/>
+    <mapping path="/static/*" exclue="true"/>
+    <content-processor>
+        <tag-rule-bundle class="cn.com.lixihao.couponmgr.common.utils.MyTagRuleBundle"/>
+    </content-processor>
+</sitemesh>

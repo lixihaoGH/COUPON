@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd" default-lazy-init="true">
+
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath*:cn/com/lixihao/couponapi/mapper/*.xml"/>
+        <property name="typeAliasesPackage" value="cn.com.lixihao.couponapi.entity"/>
+    </bean>
+
+    <!-- JDBC template 注:prototype为了避免被手动关闭-->
+    <bean id="jdbcTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+        <constructor-arg>
+            <ref bean="sessionFactory"/>
+        </constructor-arg>
+    </bean>
+
+    <!-- 框架中的坑！！！！ -->
+    <!--
+        Spring-Mybatis框架内部在调用了setSqlSessionTemplate之后，再调用setSqlSessionFactory(null)
+    不会出错，因为后面的调用无效。但是，问题关键在于：setSqlSessionFactory(null)会比setSqlSessionTemplate
+    更先调用，在先调用的情况下，会产生NullPointerException异常。这个异常在整个spring的错误堆栈中找不到，你根本
+    查不到怎么会产生这个异常，而且spring报的异常如下所示：
+
+        Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tcMapper'
+        defined in file xxxxxxxx: Error setting property values;
+        nested exception is org.springframework.beans.PropertyBatchUpdateException;
+        nested PropertyAccessExceptions (1) are:
+        PropertyAccessException 1: org.springframework.beans.MethodInvocationException: Property 'sqlSessionFactory' threw exception;
+        nested exception is java.lang.NullPointerException
+
+    错误原因：
+        在调用setSqlSessionFactory方法时，会将sqlSessionFactory传递给sqlSessionTemplate以用于创建新的sqlSessionTemplate，
+    而在sqlSessionTemplate的构造方法中，会调用sqlSessionFactory.getConfiguration().getDefaultExecutorType()方法，这就是
+    NPE的来源。
+        综全所述，如果想要成功运行，一是修改bean命名；
+    二是修改MapperScannerConfigurer配置中的属性一定为sqlSessionTemplateBeanName而不是sqlSessionFactoryBeanName！！
+
+    -->
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.com.lixihao.couponapi.mapper"/>
+        <!-- 不写这行，spring会自动搜索注入sessionFactory，在框架机制上（例如注入先后顺序可能是兼容且正常的，
+    但是加上下边的这行会报空指针异常：是由于spring内部引用冲突导致-->
+        <!--<property name="sqlSessionFactoryBeanName" value="sessionFactory" />-->
+        <property name="sqlSessionTemplateBeanName" value="jdbcTemplate"/>
+    </bean>
+</beans>

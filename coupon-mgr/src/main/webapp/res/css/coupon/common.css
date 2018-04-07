@@ -1,0 +1,121 @@
+/** --公用css-- **/
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.coupon-input{
+    width: 150px;
+}
+
+.coupon-button{
+    width: 100px;
+}
+
+.coupon-div{
+    width: 150px;
+}
+
+body{
+    background-color: #F4F5F5;
+}
+
+.my-panel-body{
+    padding-top: 0px;
+    padding-bottom:0px; 
+    width:1210px;
+    float:left;
+    margin-left:25px;
+}
+
+.sidebar-li{
+    border-bottom: #F4F5F6 solid 1px;
+    text-align: center;
+}
+
+.sign{
+    color: #EA2000;
+    margin-right: 2px;
+}
+
+.coupon-common-input{
+    display: inline;
+    margin: 0px 5px 0px 10px;
+}
+
+.coupon-common-select{
+    width: 150px;
+}
+
+.coupon-common-table{
+    height: 300px;
+    overflow:auto;
+}
+
+/* --公用css-- */
+
+.coupon-select{
+    display: inline;
+    margin: 0px 10px 0px 0px; 
+}
+
+
+.release_time{
+    width:150px;
+}
+
+#release_word{
+    transform: translate(160px,-24px);
+    width:10px;
+    margin: 0px 0px 0px 3px;
+}
+
+#release_end_time{
+    transform: translate(190px,-53px);
+}
+
+.my-sidebar{
+    width: 250px;
+    height: 300px;
+    float: left;
+}
+
+
+
+.myPanelBody{
+    width:500px;
+    height:500px;
+    
+}
+
+#single-package{
+    margin-left: 50px;
+    padding-right: 0px;
+}
+
+.single-package-name{
+    width: 150px;
+}
+
+.my-select{
+    width: 150px;
+}
+
+.my-status{
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-left: 25px;
+}
+
+.my-message-table{
+    width:1178px;
+    transform: translate(20px,80px);
+}
+
+.release-time{
+    text-align: center
+}
+
+.sidebar-link{
+    font-size: 20px;
+}

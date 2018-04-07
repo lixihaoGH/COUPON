@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.lixihao.couponapi.mapper.TemplateMapper">
+    <sql id="tableName">
+         t_coupon_template
+    </sql>
+    <sql id="fields">
+        release_id
+        ,page_title
+        ,page_img_url
+        ,page_bgcolor
+        ,goto_page_url
+        ,share_title
+        ,share_img_url
+        ,share_desc
+    </sql>
+    <select id="get" parameterType="cn.com.lixihao.couponapi.entity.condition.TemplateCondition"
+            resultType="cn.com.lixihao.couponapi.entity.condition.TemplateCondition">
+        SELECT
+            id,<include refid="fields"/>
+        FROM
+            <include refid="tableName"/>
+        WHERE
+            1 = 1
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+    </select>
+
+    <insert id="insert" parameterType="cn.com.lixihao.couponapi.entity.condition.TemplateCondition"
+        useGeneratedKeys="true" keyProperty="id">
+        INSERT
+            <include refid="tableName"/>
+        ( <include refid="fields"/> )
+        VALUES
+            (#{release_id},#{page_title},#{page_img_url},#{page_bgcolor},#{goto_page_url},#{share_title},#{share_img_url},#{share_desc})
+    </insert>
+
+    <update id="update" parameterType="cn.com.lixihao.couponapi.entity.condition.TemplateCondition">
+        UPDATE
+              <include refid="tableName"/>
+        <set>
+              <if test="page_title != null">
+                  page_title = #{page_title},
+              </if>
+              <if test="page_img_url != null">
+                  page_img_url = #{page_img_url},
+              </if>
+              <if test="page_bgcolor != null">
+                  page_bgcolor = #{page_bgcolor},
+              </if>
+              <if test="goto_page_url != null">
+                  goto_page_url = #{goto_page_url},
+              </if>
+              <if test="share_title != null">
+                  share_title = #{share_title},
+              </if>
+              <if test="share_img_url != null">
+                  share_img_url = #{share_img_url},
+              </if>
+              <if test="share_desc != null">
+                  share_desc = #{share_desc},
+              </if>
+        </set>
+        WHERE
+              1 = 1
+              <if test="release_id != null">
+                  AND release_id = #{release_id}
+              </if>
+    </update>
+
+    <delete id="delete" parameterType="cn.com.lixihao.couponapi.entity.condition.TemplateCondition">
+        DELETE
+        FROM
+              <include refid="tableName"/>
+        WHERE
+              1 = 1
+              <if test="release_id != null">
+                  AND release_id = #{release_id}
+              </if>
+    </delete>
+</mapper>

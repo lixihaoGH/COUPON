@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.lixihao.couponapi.mapper.ReceivingMapper">
+
+    <sql id="table">
+        t_coupon_receiving
+    </sql>
+
+    <sql id="columns">
+        coupon_id
+        ,coupon_stock_id
+        ,coupon_stock_name
+        ,release_id
+        ,user_id
+        ,phone_number
+        ,openid
+        ,DATE_FORMAT(receiving_time,"%Y-%m-%d %H:%i:%s") receiving_time
+        ,coupon_status
+        ,preferential_type
+        ,reach_amount
+        ,preferential_amount
+        ,discount
+        ,DATE_FORMAT(effective_time,"%Y-%m-%d %H:%i:%s") effective_time
+        ,DATE_FORMAT(expired_time,"%Y-%m-%d %H:%i:%s") expired_time
+        ,device_type
+        ,restriction_description
+    </sql>
+
+    <insert id="add"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.ReceivingCondition">
+        INSERT INTO
+        <include refid="table"/>
+        (
+        coupon_id
+        ,coupon_stock_id
+        ,coupon_stock_name
+        ,release_id
+        ,user_id
+        ,phone_number
+        ,openid
+        ,receiving_time
+        ,coupon_status
+        ,preferential_type
+        ,reach_amount
+        ,preferential_amount
+        ,discount
+        ,effective_time
+        ,expired_time
+        ,device_type
+        ,restriction_description
+        )VALUES(
+        #{coupon_id}
+        ,#{coupon_stock_id}
+        ,#{coupon_stock_name}
+        ,#{release_id}
+        ,#{user_id}
+        ,#{phone_number}
+        ,#{openid}
+        ,#{receiving_time}
+        ,#{coupon_status}
+        ,#{preferential_type}
+        ,#{reach_amount}
+        ,#{preferential_amount}
+        ,#{discount}
+        ,#{effective_time}
+        ,#{expired_time}
+        ,#{device_type}
+        ,#{restriction_description}
+        )
+    </insert>
+
+    <update id="update"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.ReceivingCondition">
+        UPDATE
+        <include refid="table"/>
+        SET coupon_status = #{coupon_status}
+        WHERE coupon_id = #{coupon_id}
+    </update>
+
+    <select id="getEffectiveList"
+            resultType="cn.com.lixihao.couponapi.entity.condition.ReceivingCondition">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="user_id != null">
+                AND user_id = #{user_id}
+            </if>
+            <if test="openid != null">
+                AND openid = #{openid}
+            </if>
+            <if test="phone_number != null">
+                AND phone_number = #{phone_number}
+            </if>
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+            <if test="coupon_status != null">
+                AND coupon_status = #{coupon_status}
+            </if>
+        </trim>
+        AND expired_time >= NOW()
+        ORDER BY expired_time ASC,preferential_amount DESC
+        LIMIT #{page_index},#{page_size}
+    </select>
+
+    <select id="getExpiredList"
+            resultType="cn.com.lixihao.couponapi.entity.condition.ReceivingCondition">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="user_id != null">
+                AND user_id = #{user_id}
+            </if>
+            <if test="openid != null">
+                AND openid = #{openid}
+            </if>
+            <if test="phone_number != null">
+                AND phone_number = #{phone_number}
+            </if>
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+            <if test="coupon_status != null">
+                AND coupon_status = #{coupon_status}
+            </if>
+        </trim>
+        AND NOW() > expired_time
+        ORDER BY expired_time DESC,preferential_amount DESC
+        LIMIT #{page_index},#{page_size}
+    </select>
+
+    <select id="queryList"
+            resultType="cn.com.lixihao.couponapi.entity.condition.ReceivingCondition">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="phone_number != null">
+                AND phone_number = #{phone_number}
+            </if>
+            <if test="user_id != null">
+                AND user_id = #{user_id}
+            </if>
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+        </trim>
+        AND coupon_status = 0
+        AND NOW() >= effective_time
+        AND expired_time >= NOW()
+        ORDER BY expired_time ASC
+    </select>
+
+    <select id="get" resultType="cn.com.lixihao.couponapi.entity.condition.ReceivingCondition">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        WHERE coupon_id = #{coupon_id}
+        AND NOW() >= effective_time
+        AND expired_time >= NOW()
+        <if test="coupon_stock_id != null">
+            AND coupon_stock_id = #{coupon_stock_id}
+        </if>
+        <if test="user_id != null">
+            AND user_id = #{user_id}
+        </if>
+        <if test="phone_number != null">
+            AND phone_number = #{phone_number}
+        </if>
+        <if test="coupon_status != null">
+            AND coupon_status = #{coupon_status}
+        </if>
+        LIMIT 1
+    </select>
+
+    <select id="dayCountByReceiving" resultType="java.lang.Integer"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.ReceivingCondition">
+        SELECT
+        COUNT(coupon_id)
+        FROM
+        <include refid="table"/>
+        WHERE
+        TO_DAYS(receiving_time) = TO_DAYS(NOW())
+        <if test="coupon_stock_id != null">
+            AND coupon_stock_id = #{coupon_stock_id}
+        </if>
+        <if test="release_id != null">
+            AND release_id = #{release_id}
+        </if>
+        <if test="device_type != null">
+            AND device_type = #{device_type}
+        </if>
+        <if test="phone_number != null">
+            AND phone_number = #{phone_number}
+        </if>
+        <if test="user_id != null">
+            AND user_id = #{user_id}
+        </if>
+    </select>
+
+    <select id="totalCountByReceiving" resultType="java.lang.Integer"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.ReceivingCondition">
+        SELECT
+        COUNT(coupon_id)
+        FROM
+        <include refid="table"/>
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="coupon_stock_id != null">
+                AND coupon_stock_id = #{coupon_stock_id}
+            </if>
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+            <if test="device_type != null">
+                AND device_type = #{device_type}
+            </if>
+            <if test="phone_number != null">
+                AND phone_number = #{phone_number}
+            </if>
+            <if test="user_id != null">
+                AND user_id = #{user_id}
+            </if>
+        </trim>
+    </select>
+
+    <update id="updateUserInfo"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.ReceivingCondition">
+        UPDATE
+        <include refid="table"/>
+        SET user_id =#{user_id}
+        WHERE user_id IS NULL AND phone_number = #{phone_number}
+    </update>
+
+</mapper>

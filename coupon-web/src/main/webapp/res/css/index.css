@@ -1,0 +1,269 @@
+
+html {
+    /*
+    background: #ff4452;
+    */
+}
+body {
+    padding-top: 7.01333333rem;
+}
+
+.useout {
+    width: 9.46666667rem;
+    height: 3.94666667rem;
+    margin: 0 auto;
+    border-radius: 0.13333333rem;
+    background: #fdebea;
+    position: relative;
+    display: none;
+}
+.useout img {
+    width: 8.82666667rem;
+    height: 2.78666667rem;
+    position: absolute;
+    top: 0.53333333rem;
+    left: 0.33333333rem;
+}
+.useout span {
+    position: absolute;
+    left: 1.6rem;
+    top: 1.46666667rem;
+    font-size: 0.69333333rem;
+    color: #cecece;
+    font-family: "微软雅黑";
+    font-weight: bold;
+}
+
+.redpacket-container {
+    width: 9.12rem;
+    margin: 0 auto;
+    background: #fdedee;
+    border-radius: 0.13333333rem;
+    padding: 0.57333333rem 0rem 0.42666667rem 0.34666667rem;
+    position: relative;
+    z-index: 11;
+
+}
+.redpacket {
+    width: 7.84rem;
+    height: 2.04rem;
+    margin: 0rem 0rem 0.21333333rem 0rem;
+    background: url(../../../res/image/coupon/packet.png);
+    background-size: 8.8rem 2.77333333rem;
+    padding: 0.4rem 0.56rem 0.33333333rem 0.4rem;
+    color: #fff;
+    font-family: "微软雅黑";
+    -webkit-box-shadow: 0.13333333rem 0.13333333rem 0.66666667rem 0.13333333rem #ffc5bf;
+    -moz-box-shadow: 0.13333333rem 0.13333333rem 0.66666667rem 0.13333333rem #ffc5bf;
+    box-shadow: 0.13333333rem 0.13333333rem 0.66666667rem 0.13333333rem #ffc5bf;
+}
+.redpacket h2 {
+    font-size: 0.46666667rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin: 0rem 0rem 0.2rem 0rem;
+}
+.redpacket p {
+    width: 2.65333333rem;
+    height: 0.53333333rem;
+    color: #e96502;
+    font-size: 0.29333333rem;
+    text-align: center;
+    line-height: 0.53333333rem;
+    background: #fed6b4;
+    margin: 0rem 0rem 0.26666667rem 0rem;
+}
+.redpacket span {
+    font-size: 0.33333333rem;
+}
+.redpacket h3 {
+    width: 2.5rem;
+    height: 0.97333333rem;
+    font-size: 0.93333333rem;
+    color: #fff;
+    font-family: "微软雅黑";
+    margin: -1.24rem 0rem 0rem 0rem;
+    text-align: right;
+}
+.redpacket h3 i {
+    font-style: normal;
+    font-size: 0.50666667rem;
+    font-weight: bold;
+    margin: 0rem 0.2rem 0rem 0rem;
+    vertical-align: middle;
+}
+.telephone {
+    padding: 0.26666667rem 0rem 0.4rem 0rem;
+    color: #222;
+}
+.redpacket-container a {
+    display: block;
+    width: 8.8rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    text-align: center;
+    border-radius: 0.13333333rem;
+    background: #ff3432;
+    color: #fff;
+    font-size: 0.44rem;
+    letter-spacing: 2px;
+}
+.instruction {
+    /*display: none;*/
+    color: #222;
+    position: relative;
+    width: 8.02666667rem;
+    height: 2.53333333rem;
+    background: #fdedee;
+    border-radius: 0.13333333rem;
+    margin: 0.4rem auto 0rem auto;
+    padding: 0.8rem 0.72rem 0.88rem 0.72rem;
+}
+.instruction div {
+    width: 7.97333333rem;
+    height: 0.02666667rem;
+    background: #918788;
+    margin: 0rem 0rem 0.46666667rem 0rem;
+}
+.instruction span {
+    position: absolute;
+    width: 3.46666667rem;
+    height: 0.4rem;
+    left: 2.93333333rem;
+    top: 0.66666667rem;
+    background: #fdedee;
+    line-height: 0.4rem;
+    text-align: center;
+}
+.instruction p {
+    font-size: 0.34666667rem;
+    line-height: 0.8rem;
+}
+.concentrate {
+    color: #fff;
+    text-align: center;
+    font-size: 0.33333333rem;
+    margin: 1.33333333rem 0rem 0.8rem 0rem;
+}
+.erweima {
+    /*display: none;*/
+    text-align: center;
+    margin: 0rem 0rem 1.06666667rem 0rem;
+}
+
+/*登录注册开始*/
+
+.register-container {
+    width: 8.08rem;
+    margin: 0 auto;
+    background: #fdedee;
+    border-radius: 0.13333333rem;
+    padding: 0.85333333rem 0.69333333rem 0.96rem 0.69333333rem;
+    position: relative;
+    z-index: 11;
+}
+.register-container .telephone {
+    margin: 0rem 0rem 0.42666667rem 0rem;
+}
+.register-container .telephone input {
+    width: 5.46666667rem;
+    height: 1.22666667rem;
+    border-radius: 0.13333333rem;
+    font-size: 0.42666667rem;
+    padding: 0rem 0rem 0rem 2.53333333rem;
+    color: #b4b4b4;
+}
+.register-container .yanzhengma {
+    margin: 0rem 0rem 0.93333333rem 0rem;
+}
+.register-container .yanzhengma input {
+    width: 3.17333333rem;
+    height: 1.22666667rem;
+    border-radius: 0.13333333rem;
+    font-size: 0.42666667rem;
+    padding: 0rem 0rem 0rem 1.6rem;
+    color: #b4b4b4;
+    vertical-align: middle;
+}
+.register-container .yanzhengma button {
+    display: inline-block;
+    width: 2.85333333rem;
+    height: 1.22666667rem;
+    background: #e5e5e5;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 1.22666667rem;
+    margin: 0rem 0rem 0rem 0.4rem;
+    border-radius: 0.13333333rem;
+    font-size: 0.42666667rem;
+    color: #878787;
+    border: none;
+    float:right;
+}
+.register-container .yanzhengma button.on {
+    color: #fff;
+    background: #ff3432;
+    display: inline-block;
+    width: 2.85333333rem;
+    height: 1.22666667rem;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 1.22666667rem;
+    margin: 0rem 0rem 0rem 0.4rem;
+    border-radius: 0.13333333rem;
+    font-size: 0.42666667rem;
+    border: none;
+}
+.register-container .confirm button {
+    display: inline-block;
+    width: 8rem;
+    height: 1.22666667rem;
+    background: #e5e5e5;
+    text-align: center;
+    line-height: 1.22666667rem;
+    border-radius: 0.13333333rem;
+    font-size: 0.42666667rem;
+    color: #878787;
+    border: none;
+}
+.register-container .confirm button.on {
+    display: inline-block;
+    width: 8rem;
+    height: 1.22666667rem;
+    background: #ff3432;
+    text-align: center;
+    line-height: 1.22666667rem;
+    border-radius: 0.13333333rem;
+    font-size: 0.42666667rem;
+    color: #fff;
+    border: none;
+}
+
+
+.modal {
+    width: 5.77333333rem;
+    height: 1.65333333rem;
+    line-height: 1.65333333rem;
+    text-align: center;
+    background: #4a4a4a;
+    border-radius: 0.13333333rem;
+    position: fixed;
+    left: 2.10666667rem;
+    color: #fff;
+    display: none;
+    z-index: 12;
+}
+
+
+.transparent-wrap{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 10rem ;
+    height: 11.38666667rem;
+    z-index: 10;
+}
+
+/*登录注册结束*/
+
+

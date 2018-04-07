@@ -1,0 +1,237 @@
+body {
+    position: relative;
+}
+
+#choose-release-coupon {
+    position: absolute;
+    left: 550px;
+    top: 0px;
+}
+
+#create-new-release-modal {
+    position: absolute;
+    left: 550px;
+    top: 0px;
+}
+
+#show-release-info-modal {
+    position: absolute;
+    left: 550px;
+    top: 0px;
+}
+
+#create-choose-release-coupon {
+    position: absolute;
+    left: 450px;
+    top: 0px;
+}
+
+#update-choose-release-coupon{
+    position: absolute;
+    left: 450px;
+    top: 0px;
+}
+
+#choosePolicyModal {
+    position: absolute;
+    left: 400px;
+    top: 0px;
+}
+
+#chooseReleasePolicy {
+    position: absolute;
+    left: 400px;
+    top: 0px;
+}
+
+#entrance-policy-modal {
+    position: absolute;
+    left: 550px;
+    top: 0px;
+}
+
+#choose-entrance-coupon {
+    position: absolute;
+    left: 450px;
+    top: 0px;
+}
+
+#release-id-div {
+    width: 800px;
+    margin: 0px 40px 5px 30px;
+    text-align: left;
+}
+
+.release-search-button {
+    display: inline;
+}
+
+.entrance-search-button {
+    display: inline;
+    margin: 0px 5px 2px 0px;
+}
+
+#coupon-label-name {
+    width: 100px;
+    padding: 10px 0px 0px 0px;
+
+}
+
+.release-checkbox {
+    margin: 0px 20px 0px 0px;
+}
+
+#policy-stock-name {
+    margin: 5px 30px 0px 10px;
+}
+
+.release-search-div {
+    margin: 20px 0px 0px 0px;
+}
+
+.entrance-search-div {
+    margin: 20px 0px 0px 30px;
+}
+
+.policy-create-btn {
+    width: 200px;
+    margin: 0px 0px 20px 0px;
+}
+
+.policy-modal {
+    width: 950px;
+}
+
+.coupon-release-input {
+    width: 150px;
+    transform: translate(80px, -24px);
+}
+
+.group-name {
+    margin: 15px 0px 0px 5px;
+}
+
+.coupon-release-count {
+    margin: 30px 0px;
+}
+
+.choose-coupon {
+    margin-left: 10px;
+}
+
+.coupon-list {
+    width: 800px;
+    height: 400px;
+    margin: 30px 10px 20px 10px;
+}
+
+.policy-modal {
+    margin-left: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    width: 1110px;
+
+}
+
+#modie-receive {
+    padding-top: 0px;
+    margin: 0px 0px 20px 0px;
+}
+
+#receive-panel {
+    margin-top: 20px;
+}
+
+#day-max-checkbox {
+    margin: 0px 0px 0px 10px;
+}
+
+#day-amount-checkbox {
+    margin: 0px 0px 0px 30px;
+}
+
+#day-max-input {
+
+    display: inline;
+    margin: 0px 5px 0px 10px;
+}
+
+#day-amount-input {
+
+    display: inline;
+    margin: 0px 5px 0px 0px;
+}
+
+.coupon-release-btn {
+    margin-bottom: 20px;
+}
+
+.share-page-title {
+    display: inline;
+
+}
+
+.show-share-html {
+    transform: translate(200px, 0px);
+    width: 200px;
+    height: 300px;
+    border: 2px #000000 solid;
+}
+
+.share-title {
+    text-align: center;
+    width: 200px;
+    background-color: #000000;
+    color: aliceblue;
+}
+
+#share-img {
+    display: block;
+    margin: 20px 0px 0px 40px;
+    width: 120px;
+    height: 100px;
+}
+
+.coupon-textarea {
+    width: 500px;
+    margin-bottom: 20px;
+}
+
+.test-modal-body {
+    height: 500px;
+}
+
+.test-modal-body-left {
+    width: 444px;
+    height: 590px;
+}
+
+.test-modal-body-right {
+    width: 604px;
+    transform: translate(465px, -590px);
+}
+
+.my-modal-dialog {
+    width: 1100px;
+    height: 600px;
+}
+
+#policy-modal-body {
+    width: 300px;
+}
+
+#coupon-entrance-name {
+    display: inline;
+}
+
+.coupon-common-table {
+    transform: translate(-150px, 60px);
+    width: auto;
+    height: 510px;
+    overflow: visible;
+}
+
+#coupon-policy-table {
+    width: 300px;
+    transform: translate(-150px, 60px);
+}

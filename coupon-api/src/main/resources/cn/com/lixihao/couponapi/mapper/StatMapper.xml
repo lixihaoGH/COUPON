@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.com.lixihao.couponapi.mapper.StatMapper">
+    <sql id="tableName">
+         t_coupon_stat
+    </sql>
+
+    <sql id="fields">
+        coupon_stock_id
+        ,release_id
+        ,remaining_count
+    </sql>
+    <select id="get" parameterType="cn.com.lixihao.couponapi.entity.condition.StatCondition"
+            resultType="cn.com.lixihao.couponapi.entity.condition.StatCondition">
+        SELECT
+        id,
+        <include refid="fields"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE
+        coupon_stock_id = #{coupon_stock_id}
+        AND release_id = #{release_id}
+    </select>
+
+    <select id="getList" parameterType="cn.com.lixihao.couponapi.entity.condition.StatCondition"
+            resultType="cn.com.lixihao.couponapi.entity.condition.StatCondition">
+        SELECT
+        id,
+        <include refid="fields"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE
+            1 = 1
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+    </select>
+
+    <insert id="insert" parameterType="cn.com.lixihao.couponapi.entity.condition.StatCondition">
+        INSERT
+        <include refid="tableName"/>
+        (
+        <include refid="fields"/>
+        )
+        VALUES
+        (#{coupon_stock_id},#{release_id},#{remaining_count})
+    </insert>
+
+    <select id="getCount" parameterType="cn.com.lixihao.couponapi.entity.condition.StatCondition"
+            resultType="Integer">
+        SELECT
+            COUNT(id)
+        FROM
+            <include refid="tableName"/>
+        WHERE
+            1 = 1
+            <if test="coupon_stock_id != null">
+                AND coupon_stock_id = #{coupon_stock_id}
+            </if>
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+    </select>
+
+    <update id="updateRemaining" parameterType="cn.com.lixihao.couponapi.entity.condition.StatCondition">
+        UPDATE
+        <include refid="tableName"/>
+        SET remaining_count = remaining_count - 1
+        WHERE
+        release_id = #{release_id}
+    </update>
+
+    <delete id="delete" parameterType="cn.com.lixihao.couponapi.entity.condition.StatCondition">
+        DELETE
+        FROM
+              <include refid="tableName"/>
+        WHERE
+              release_id = #{release_id}
+    </delete>
+
+    <select id="countRemaining" parameterType="cn.com.lixihao.couponapi.entity.condition.StatCondition" resultType="java.lang.Integer">
+        SELECT MIN(remaining_count)
+        FROM <include refid="tableName"/>
+        WHERE release_id = #{release_id}
+    </select>
+
+    <select id="getStatisticsList" parameterType="cn.com.lixihao.couponapi.entity.condition.StatisticsCondition"
+        resultType="cn.com.lixihao.couponapi.entity.result.StatisticsResponse">
+        SELECT
+            coupon_stock_id,
+            remaining_count,
+            release_id
+        FROM
+            <include refid="tableName"/>
+        WHERE
+            1 = 1
+            <if test="coupon_stock_name != null">
+            AND coupon_stock_id IN (
+                SELECT
+                    coupon_stock_id
+                FROM
+                    t_coupon_stock
+                WHERE
+                    INSTR(coupon_stock_name, #{coupon_stock_name}) &gt; 0
+                )
+            </if>
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+        LIMIT #{page_index},#{page_size}
+    </select>
+
+</mapper>

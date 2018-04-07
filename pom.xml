@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>coupon</groupId>
+    <artifactId>COUPON</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>coupon-api</module>
+        <module>coupon-mgr</module>
+        <module>coupon-web</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <release-version>dev</release-version>
+                <environment>dev</environment>
+                <coupon.jdbc.driver>com.mysql.jdbc.Driver</coupon.jdbc.driver>
+                <coupon.jdbc.url>jdbc:mysql://116.196.99.250:3306/pay</coupon.jdbc.url>
+                <coupon.jdbc.username>root</coupon.jdbc.username>
+                <coupon.jdbc.password>root</coupon.jdbc.password>
+                <coupon.redis.pool.host>116.196.99.250</coupon.redis.pool.host>
+                <coupon.redis.pool.port>6379</coupon.redis.pool.port>
+                <coupon.redis.pool.password>lixihao589598@_</coupon.redis.pool.password>
+                <coupon.api.host>http://116.196.99.250:8081/</coupon.api.host>
+                <coupon.web.host>http://116.196.99.250:8082/</coupon.web.host>
+                <coupon.mgr.host>http://116.196.99.250:8080/</coupon.mgr.host>
+                <yougou.host></yougou.host>
+                <coupon.upload.path>/home/lixihao/coupon/images/</coupon.upload.path>
+                <coupon.webaccess.path>http://116.196.99.250/</coupon.webaccess.path>
+                <!-- 关键依赖数据与账号 -->
+                <coupon.weixin.hiveview.appid>wxa8eaeaacd1e0c687</coupon.weixin.hiveview.appid>
+                <coupon.weixin.hiveview.secret>50d63a90bce338e46594df0b113bb959</coupon.weixin.hiveview.secret>
+                <coupon.weixin.test.appid>wx5c6bfc9d42ce4d1c</coupon.weixin.test.appid>
+                <coupon.weixin.test.secret>1ddbdcab328bd8f94ffac3c9f59fa79b</coupon.weixin.test.secret>
+            </properties>
+
+        </profile>
+    </profiles>
+
+
+</project>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.lixihao.couponapi.mapper.TradeMapper">
+    <sql id="table">
+        t_coupon_trade
+    </sql>
+
+    <sql id="columns">
+        coupon_id
+        ,coupon_stock_id
+        ,DATE_FORMAT(create_time,"%Y-%m-%d %H:%i:%s") create_time
+        ,user_id
+        ,trade_no
+        ,total_amount
+        ,deduction_amount
+        ,payment_amount
+        ,trade_status
+        ,release_id
+    </sql>
+
+    <insert id="add" parameterType="cn.com.lixihao.couponapi.entity.condition.TradeCondition">
+        INSERT INTO
+        <include refid="table"/>
+        (
+        coupon_id
+        ,coupon_stock_id
+        ,create_time
+        ,user_id
+        ,trade_no
+        ,total_amount
+        ,deduction_amount
+        ,payment_amount
+        ,trade_status
+        ,release_id
+        )VALUES(
+        #{coupon_id}
+        ,#{coupon_stock_id}
+        ,#{create_time}
+        ,#{user_id}
+        ,#{trade_no}
+        ,#{total_amount}
+        ,#{deduction_amount}
+        ,#{payment_amount}
+        ,#{trade_status}
+        ,#{release_id}
+        )
+    </insert>
+
+    <update id="update" parameterType="cn.com.lixihao.couponapi.entity.condition.TradeCondition">
+        UPDATE
+        <include refid="table"/>
+        SET trade_status = #{trade_status}
+        WHERE trade_no = #{trade_no}
+    </update>
+
+
+    <select id="get" resultType="cn.com.lixihao.couponapi.entity.condition.TradeCondition">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        WHERE trade_no = #{trade_no}
+        LIMIT 1
+    </select>
+
+    <select id="getList" resultType="cn.com.lixihao.couponapi.entity.condition.TradeCondition">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        WHERE
+        1 = 1
+        <if test="trade_no != null">
+            AND trade_no = #{trade_no}
+        </if>
+        <if test="trade_status != null">
+            AND trade_status = #{trade_status}
+        </if>
+        <if test="coupon_id != null">
+            AND coupon_id = #{coupon_id}
+        </if>
+        <if test="create_time != null">
+            AND #{create_time} > create_time
+        </if>
+        <if test="coupon_stock_id != null">
+            AND coupon_stock_id = #{coupon_stock_id}
+        </if>
+        <if test="release_id != null">
+            AND release_id = #{release_id}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="cn.com.lixihao.couponapi.entity.condition.TradeCondition"
+            resultType="Integer">
+        SELECT
+            COUNT(id)
+        FROM
+            <include refid="table"/>
+        WHERE
+            1 = 1
+            <if test="coupon_stock_id != null">
+                AND coupon_stock_id = #{coupon_stock_id}
+            </if>
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+    </select>
+    
+    <select id="getTotalPayment" parameterType="cn.com.lixihao.couponapi.entity.condition.TradeCondition"
+            resultType="Integer">
+        SELECT
+            SUM(payment_amount)
+        FROM
+            <include refid="table"/>
+        WHERE
+            1 = 1
+            <if test="release_id != null">
+                AND release_id = #{release_id}
+            </if>
+            <if test="coupon_stock_id != null">
+                AND coupon_stock_id = #{coupon_stock_id}
+            </if>
+    </select>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	    http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	    http://www.springframework.org/schema/aop
+	    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+    <!-- spring自动完成 创建代理织入切面,bean上注解：@Aspectj -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- Spring自动注册BeanPostProcessor，即使用<context:annotation- config/>隐式地向Spring容器注册AutowiredAnnotation、RequiredAnnotation、
+        CommonAnnotation、PersistenceAnnotation这4个BeanPostProcessor -->
+    <!--<context:annotation-config/>-->
+
+    <!-- spring自动扫描base-pack下面或者子包下面的java文件，如果扫描到有@Component @Controller@Service等这些注解的类，则把这些类注册为bean -->
+    <context:component-scan base-package="cn.com.lixihao"/><!-- 当使用<context:component-scan/>时，spring已经默认注册4种BeanPostProcessor -->
+
+    <!--引入属性文件-->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          lazy-init="false">
+        <property name="locations">
+            <list>
+                <value>classpath*:conf/jdbc.properties</value>
+                <value>classpath*:conf/redis.properties</value>
+            </list>
+        </property>
+    </bean>
+</beans>

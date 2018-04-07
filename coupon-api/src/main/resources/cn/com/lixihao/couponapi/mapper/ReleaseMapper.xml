@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.lixihao.couponapi.mapper.ReleaseMapper">
+    <sql id="tableName">
+        t_coupon_release
+    </sql>
+    <sql id="fields">
+        release_id
+        ,release_name
+        ,stock_id_list
+        ,release_count
+        ,DATE_FORMAT(release_start_time,"%Y-%m-%d %H:%i:%s") release_start_time
+        ,DATE_FORMAT(release_end_time,"%Y-%m-%d %H:%i:%s") release_end_time
+        ,release_status
+    </sql>
+
+    <select id="get" parameterType="cn.com.lixihao.couponapi.entity.condition.ReleaseConditon"
+            resultType="cn.com.lixihao.couponapi.entity.result.ReleaseResponse">
+        SELECT
+              id,<include refid="fields" />
+        FROM
+              <include refid="tableName" />
+        WHERE
+              release_id = #{release_id}
+    </select>
+    <select id="getList" parameterType="cn.com.lixihao.couponapi.entity.condition.ReleaseConditon"
+            resultType="cn.com.lixihao.couponapi.entity.result.ReleaseResponse">
+        SELECT
+              id,<include refid="fields" />
+        FROM
+              <include refid="tableName" />
+        WHERE
+              1 = 1
+              <if test="release_name != null ">
+                  AND INSTR(release_name,#{release_name}) &gt; 0
+              </if>
+              <if test="release_status != null">
+                  <if test="release_status == 1 || release_status == 2">
+                    AND release_status = #{release_status}
+                    AND NOW() BETWEEN release_start_time AND release_end_time
+                  </if>
+                  <if test="release_status == 0">
+                    AND release_start_time &gt;= NOW()
+                  </if>
+                  <if test="release_status == 3">
+                    AND (
+                      SELECT
+                        MIN(remaining_count)
+                      FROM
+                        t_coupon_stat
+                      WHERE
+                      t_coupon_stat.release_id = t_coupon_release.release_id
+                      ) = 0
+                    OR NOW() &gt; release_end_time
+                  </if>
+              </if>
+        LIMIT #{page_index},#{page_size}
+    </select>
+    <insert id="insert" parameterType="cn.com.lixihao.couponapi.entity.condition.ReleaseConditon">
+        INSERT INTO
+              <include refid="tableName"/>
+        (release_id,release_name,stock_id_list,release_count,release_start_time,release_end_time,release_status )
+        VALUES
+              (#{release_id},#{release_name},#{stock_id_list},#{release_count},#{release_start_time},#{release_end_time},#{release_status} )
+    </insert>
+
+    <update id="update" parameterType="cn.com.lixihao.couponapi.entity.condition.ReleaseConditon">
+        UPDATE
+            <include refid="tableName"/>
+        <set >
+            <if test="release_name != null ">
+                release_name = #{release_name},
+            </if>
+            <if test="stock_id_list != null ">
+                stock_id_list = #{stock_id_list},
+            </if>
+            <if test="release_count != null ">
+                release_count = #{release_count},
+            </if>
+            <if test="release_start_time != null ">
+                release_start_time = #{release_start_time},
+            </if>
+            <if test="release_end_time != null ">
+                release_end_time = #{release_end_time},
+            </if>
+            <if test="release_status != null ">
+                release_status = #{release_status},
+            </if>
+        </set>
+        WHERE
+            release_id = #{release_id}
+    </update>
+
+    <delete id="delete" parameterType="cn.com.lixihao.couponapi.entity.condition.ReleaseConditon">
+        DELETE
+        FROM
+            <include refid="tableName"/>
+        WHERE
+            release_id = #{release_id}
+    </delete>
+
+    <select id="getCount" parameterType="cn.com.lixihao.couponapi.entity.condition.ReleaseConditon"
+            resultType="Integer">
+        SELECT
+            COUNT(id)
+        FROM
+            <include refid="tableName"/>
+        WHERE
+            1 = 1
+            <if test="release_name != null ">
+                AND INSTR(release_name,#{release_name}) &gt; 0
+            </if>
+            <if test="release_status != null">
+                <if test="release_status == 1 || release_status == 2">
+                    AND release_status = #{release_status}
+                    AND NOW() BETWEEN release_start_time AND release_end_time
+                </if>
+                <if test="release_status == 0">
+                    AND release_start_time &gt;= NOW()
+                </if>
+                <if test="release_status == 3">
+                    AND (
+                    SELECT
+                        MIN(remaining_count)
+                    FROM
+                        t_coupon_stat
+                    WHERE
+                        t_coupon_stat.release_id = t_coupon_release.release_id
+                    ) = 0
+                    OR release_end_time &lt; NOW()
+                </if>
+            </if>
+    </select>
+</mapper>

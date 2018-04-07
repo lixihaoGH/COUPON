@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.lixihao.couponapi.mapper.YougouRestrictionMapper">
+    <sql id="tableName">
+         t_coupon_yougou_restriction
+    </sql>
+    <sql id="fields">
+        coupon_stock_id
+        ,goods_range
+        ,reach_amount
+        ,effective_duration
+        ,DATE_FORMAT(effective_time,"%Y-%m-%d %H:%i:%s") effective_time
+        ,DATE_FORMAT(expired_time,"%Y-%m-%d %H:%i:%s") expired_time
+        ,selected_goods_category
+        ,selected_first_level_list
+        ,selected_second_level_list
+        ,selected_third_level_list
+        ,selected_goods_list
+        ,excluded_goods_category
+        ,excluded_first_level_list
+        ,excluded_second_level_list
+        ,excluded_third_level_list
+        ,excluded_goods_list
+        ,restriction_description
+    </sql>
+
+    <select id="get"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition"
+            resultType="cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition">
+        SELECT
+        id,
+        <include refid="fields"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE
+        coupon_stock_id = #{coupon_stock_id}
+    </select>
+
+    <insert id="insert"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition">
+        INSERT
+        <include refid="tableName"/>
+        (coupon_stock_id,goods_range, reach_amount, effective_duration,effective_time,expired_time,
+        selected_goods_category, selected_first_level_list, selected_second_level_list, selected_third_level_list,
+        selected_goods_list, excluded_goods_category, excluded_first_level_list, excluded_second_level_list,
+        excluded_third_level_list, excluded_goods_list, restriction_description
+        )
+        VALUES
+        (#{coupon_stock_id},#{goods_range},#{reach_amount},#{effective_duration},#{effective_time},#{expired_time},#{selected_goods_category},#{selected_first_level_list},#{selected_second_level_list},#{selected_third_level_list},#{selected_goods_list},#{excluded_goods_category},#{excluded_first_level_list},#{excluded_second_level_list},#{excluded_third_level_list},#{excluded_goods_list},#{restriction_description})
+    </insert>
+
+    <select id="query" resultType="cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE
+        #{coupon_stock_id} = coupon_stock_id
+        AND
+        #{reach_amount} >= reach_amount
+        AND
+        (
+        goods_range = 0
+        OR
+        (
+        goods_range = 1
+        <trim prefix="AND(" prefixOverrides="AND" suffix=")">
+            <if test="selected_goods_category != null">
+                AND FIND_IN_SET(#{selected_goods_category},selected_goods_category) > 0
+            </if>
+            <if test="excluded_goods_category != null">
+                AND FIND_IN_SET(#{excluded_goods_category},excluded_goods_category) = 0
+            </if>
+            <trim prefix="AND(" prefixOverrides="OR" suffix=")">
+                <if test="selected_goods_list != null || excluded_goods_list != null">
+                    OR
+                    <trim prefix="(" prefixOverrides="AND" suffix=")">
+                        <if test="selected_goods_list != null">
+                            AND FIND_IN_SET(#{selected_goods_list},selected_goods_list) > 0
+                        </if>
+                        <if test="excluded_goods_list != null">
+                            AND FIND_IN_SET(#{excluded_goods_list},excluded_goods_list) = 0
+                        </if>
+                    </trim>
+                </if>
+                <if test="selected_first_level_list != null || excluded_first_level_list != null">
+                    OR
+                    <trim prefix="(" prefixOverrides="AND" suffix=")">
+                        <if test="selected_first_level_list != null">
+                            AND FIND_IN_SET(#{selected_first_level_list},selected_first_level_list) > 0
+                        </if>
+                        <if test="excluded_first_level_list != null">
+                            AND FIND_IN_SET(#{excluded_first_level_list},excluded_first_level_list) = 0
+                        </if>
+                    </trim>
+                </if>
+                <if test="selected_second_level_list != null || excluded_second_level_list != null">
+                    OR
+                    <trim prefix="(" prefixOverrides="AND" suffix=")">
+                        <if test="selected_second_level_list != null">
+                            AND FIND_IN_SET(#{selected_second_level_list},selected_second_level_list) > 0
+                        </if>
+                        <if test="excluded_second_level_list != null">
+                            AND FIND_IN_SET(#{excluded_second_level_list},excluded_second_level_list) = 0
+                        </if>
+                    </trim>
+                </if>
+                <if test="selected_third_level_list != null || excluded_third_level_list != null">
+                    OR
+                    <trim prefix="(" prefixOverrides="AND" suffix=")">
+                        <if test="selected_third_level_list != null">
+                            AND FIND_IN_SET(#{selected_third_level_list},selected_third_level_list) > 0
+                        </if>
+                        <if test="excluded_third_level_list != null">
+                            AND FIND_IN_SET(#{excluded_third_level_list},excluded_third_level_list) = 0
+                        </if>
+                    </trim>
+                </if>
+                <if test="selected_goods_list != null || excluded_goods_list != null">
+                    OR
+                    <trim prefix="(" prefixOverrides="AND" suffix=")">
+                        <if test="selected_goods_list != null">
+                            AND FIND_IN_SET(#{selected_goods_list},selected_goods_list) > 0
+                        </if>
+                        <if test="excluded_goods_list != null">
+                            AND FIND_IN_SET(#{excluded_goods_list},excluded_goods_list) = 0
+                        </if>
+                    </trim>
+                </if>
+            </trim>
+        </trim>
+        )
+        )
+    </select>
+
+    <update id="update"
+            parameterType="cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition">
+        UPDATE
+        <include refid="tableName"/>
+        <set>
+            <if test="goods_range != null">
+                goods_range = #{goods_range},
+            </if>
+            <if test="reach_amount != null">
+                reach_amount = #{reach_amount},
+            </if>
+            <if test="effective_duration != null">
+                effective_duration = #{effective_duration},
+            </if>
+            <if test="effective_time != null">
+                effective_time = #{effective_time},
+            </if>
+            <if test="expired_time != null">
+                expired_time = #{expired_time},
+            </if>
+            <if test="selected_goods_category != null">
+                selected_goods_category = #{selected_goods_category},
+            </if>
+            <if test="selected_first_level_list != null">
+                selected_first_level_list = #{selected_first_level_list},
+            </if>
+            <if test="selected_second_level_list != null">
+                selected_second_level_list = #{selected_second_level_list},
+            </if>
+            <if test="selected_third_level_list != null">
+                selected_third_level_list = #{selected_third_level_list},
+            </if>
+            <if test="selected_goods_list != null">
+                selected_goods_list = #{selected_goods_list},
+            </if>
+            <if test="excluded_goods_category != null">
+                excluded_goods_category = #{excluded_goods_category},
+            </if>
+            <if test="excluded_first_level_list != null">
+                excluded_first_level_list = #{excluded_first_level_list},
+            </if>
+            <if test="excluded_second_level_list != null">
+                excluded_second_level_list = #{excluded_second_level_list},
+            </if>
+            <if test="excluded_third_level_list != null">
+                excluded_third_level_list = #{excluded_third_level_list},
+            </if>
+            <if test="excluded_goods_list != null">
+                excluded_goods_list = #{excluded_goods_list},
+            </if>
+            <if test="restriction_description != null">
+                restriction_description = #{restriction_description},
+            </if>
+        </set>
+        WHERE
+              coupon_stock_id = #{coupon_stock_id}
+    </update>
+
+    <delete id="delete" parameterType="cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition">
+        DELETE
+        FROM
+              <include refid="tableName"/>
+        WHERE
+            coupon_stock_id = #{coupon_stock_id}
+    </delete>
+</mapper>

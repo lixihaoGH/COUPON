@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.lixihao.couponapi.mapper.SmsCaptchaMapper">
+
+    <sql id="table">
+        t_weixin_sms_captcha
+    </sql>
+
+    <sql id="columns">
+        phone
+        ,sms_captcha
+        ,expiry_time
+    </sql>
+
+    <select id="get" resultType="cn.com.lixihao.couponapi.entity.condition.SmsCaptchaCondition">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        WHERE phone = #{phone}
+        LIMIT 1
+    </select>
+
+    <insert id="add" parameterType="cn.com.lixihao.couponapi.entity.condition.SmsCaptchaCondition">
+        INSERT INTO
+        <include refid="table"/>
+        (<include refid="columns"/>)
+        VALUES
+        (
+        #{phone}
+        ,#{sms_captcha}
+        ,#{expiry_time}
+        )
+    </insert>
+
+    <update id="update" parameterType="cn.com.lixihao.couponapi.entity.condition.SmsCaptchaCondition">
+        UPDATE
+        <include refid="table"/>
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="sms_captcha != null">
+                ,sms_captcha = #{sms_captcha}
+            </if>
+            <if test="expiry_time != null">
+                ,expiry_time = #{expiry_time}
+            </if>
+        </trim>
+        WHERE phone = #{phone}
+    </update>
+
+    <delete id="delete" parameterType="cn.com.lixihao.couponapi.entity.condition.SmsCaptchaCondition">
+        DELETE FROM <include refid="table"/> WHERE #{expiry_time} > expiry_time
+    </delete>
+
+</mapper>
