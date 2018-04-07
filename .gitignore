@@ -12,3 +12,6 @@
 *.iml
 out
 gen
+coupon-mgr/target/
+coupon-api/target/
+coupon-web/target/
