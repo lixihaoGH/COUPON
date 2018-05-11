@@ -3,8 +3,8 @@ package cn.com.lixihao.couponapi.service;
 import cn.com.lixihao.couponapi.constants.SysConstants;
 import cn.com.lixihao.couponapi.entity.condition.ReceivingCondition;
 import cn.com.lixihao.couponapi.entity.condition.TradeCondition;
-import cn.com.lixihao.couponapi.manager.ReceivingManager;
-import cn.com.lixihao.couponapi.manager.TradeManager;
+import cn.com.lixihao.couponapi.dao.ReceivingDao;
+import cn.com.lixihao.couponapi.dao.TradeDao;
 import com.alibaba.fastjson.JSONObject;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -26,9 +26,9 @@ public class TradeService {
     private Logger log = LoggerFactory.getLogger(TradeService.class);
 
     @Autowired
-    ReceivingManager receivingManager;
+    ReceivingDao receivingDao;
     @Autowired
-    TradeManager tradeManager;
+    TradeDao tradeDao;
 
     private final Integer TRADE_STATUS_LOCK = 1;
     private final Integer TRADE_STATUS_USED = 2;
@@ -39,21 +39,21 @@ public class TradeService {
     public void add(TradeCondition tradeCondition) {
         String create_time = DateTime.now().toString(SysConstants.DATE_FORMAT);
         tradeCondition.setCreate_time(create_time);
-        Integer addResult = tradeManager.add(tradeCondition);
+        Integer addResult = tradeDao.add(tradeCondition);
         if (addResult != 1) {
             throw new RuntimeException("添加交易失败");
         }
         ReceivingCondition receivingCondition = new ReceivingCondition();
         receivingCondition.setCoupon_id(tradeCondition.getCoupon_id());
         receivingCondition.setCoupon_status(this.TRADE_STATUS_LOCK);
-        Integer updateResult = receivingManager.update(receivingCondition);
+        Integer updateResult = receivingDao.update(receivingCondition);
         if (updateResult == 0) {
             throw new RuntimeException("变更卡券状态失败");
         }
     }
 
     public void update(TradeCondition tradeCondition) {
-        Integer updateResult = tradeManager.update(tradeCondition);
+        Integer updateResult = tradeDao.update(tradeCondition);
         if (updateResult == 0) {
             throw new RuntimeException("更新交易失败");
         }
@@ -61,13 +61,13 @@ public class TradeService {
         receivingCondition.setCoupon_id(tradeCondition.getCoupon_id());
         if (tradeCondition.getTrade_status().equals(this.TRADE_STATUS_CANCEL)) {
             receivingCondition.setCoupon_status(SysConstants.COUPON_STATUS_INIT);
-            Integer updateCouponResult = receivingManager.update(receivingCondition);
+            Integer updateCouponResult = receivingDao.update(receivingCondition);
             if (updateCouponResult == 0) {
                 throw new RuntimeException("变更卡券状态失败");
             }
         } else if (tradeCondition.getTrade_status().equals(this.TRADE_STATUS_PAID)) {
             receivingCondition.setCoupon_status(this.TRADE_STATUS_USED);
-            Integer updateCouponResult = receivingManager.update(receivingCondition);
+            Integer updateCouponResult = receivingDao.update(receivingCondition);
             if (updateCouponResult == 0) {
                 throw new RuntimeException("变更卡券状态失败");
             }
@@ -75,7 +75,7 @@ public class TradeService {
     }
 
     public String getList(TradeCondition tradeCondition) {
-        List<TradeCondition> result = tradeManager.getList(tradeCondition);
+        List<TradeCondition> result = tradeDao.getList(tradeCondition);
         if (result.isEmpty()) {
             return "error";
         }
@@ -83,7 +83,7 @@ public class TradeService {
     }
 
     public void updateExpiredTrade(TradeCondition tradeCondition) {
-        List<TradeCondition> tradeConditionList = tradeManager.getList(tradeCondition);
+        List<TradeCondition> tradeConditionList = tradeDao.getList(tradeCondition);
         log.info("[UpdateExpiredTrade]expired_trade->{}", tradeConditionList);
         if (tradeConditionList.isEmpty()) {
             return;

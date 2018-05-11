@@ -2,7 +2,7 @@ package cn.com.lixihao.couponapi.service;
 
 import cn.com.lixihao.couponapi.api.WeixinApi;
 import cn.com.lixihao.couponapi.constants.WeixinConstants;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.ShardedJedis;

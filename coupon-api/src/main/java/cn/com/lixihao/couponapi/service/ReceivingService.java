@@ -7,15 +7,14 @@ import cn.com.lixihao.couponapi.entity.condition.StockCondition;
 import cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition;
 import cn.com.lixihao.couponapi.entity.result.StockResponse;
 import cn.com.lixihao.couponapi.helper.GenerateIdentifier;
-import cn.com.lixihao.couponapi.manager.ReceivingManager;
-import cn.com.lixihao.couponapi.manager.StatManager;
-import cn.com.lixihao.couponapi.manager.StockManager;
-import cn.com.lixihao.couponapi.manager.YougouRestrictionManager;
+import cn.com.lixihao.couponapi.dao.ReceivingDao;
+import cn.com.lixihao.couponapi.dao.StatDao;
+import cn.com.lixihao.couponapi.dao.StockDao;
+import cn.com.lixihao.couponapi.dao.YougouRestrictionDao;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -47,16 +46,16 @@ public class ReceivingService {
     @Autowired
     WeixinService weixinService;
     @Autowired
-    ReceivingManager receivingManager;
+    ReceivingDao receivingDao;
     @Autowired
-    StockManager stockManager;
+    StockDao stockDao;
     @Autowired
-    YougouRestrictionManager yougouRestrictionManager;
+    YougouRestrictionDao yougouRestrictionDao;
     @Autowired
-    StatManager statManager;
+    StatDao statDao;
 
     public String get(ReceivingCondition receivingCondition) {
-        ReceivingCondition result = receivingManager.get(receivingCondition);
+        ReceivingCondition result = receivingDao.get(receivingCondition);
         if (result == null) {
             return "error";
         }
@@ -71,9 +70,9 @@ public class ReceivingService {
         Integer coupon_status = receivingCondition.getCoupon_status();
         if (coupon_status.equals(SysConstants.COUPON_STATUS_EXPIRED)) {
             receivingCondition.setCoupon_status(SysConstants.COUPON_STATUS_INIT);
-            listResult = receivingManager.getExpiredList(receivingCondition);
+            listResult = receivingDao.getExpiredList(receivingCondition);
         } else {
-            listResult = receivingManager.getEffectiveList(receivingCondition);
+            listResult = receivingDao.getEffectiveList(receivingCondition);
         }
         if (listResult == null) {
             return "error";
@@ -101,7 +100,7 @@ public class ReceivingService {
             for (String coupon_stock_id : StockIdList) {
                 JSONObject jsonObject = new JSONObject();
                 stockCondition.setCoupon_stock_id(coupon_stock_id);
-                StockResponse stock = stockManager.get(stockCondition);
+                StockResponse stock = stockDao.get(stockCondition);
                 if (stock == null) {
                     return "error";
                 }
@@ -111,7 +110,7 @@ public class ReceivingService {
                 jsonObject.put("preferential_amount", stock.getPreferential_amount() + "");
                 jsonObject.put("discount", stock.getDiscount() + "");
                 yougouRestrictionCondition.setCoupon_stock_id(coupon_stock_id);
-                YougouRestrictionCondition yougouRestriction = yougouRestrictionManager.get(yougouRestrictionCondition);
+                YougouRestrictionCondition yougouRestriction = yougouRestrictionDao.get(yougouRestrictionCondition);
                 if (yougouRestriction == null) {
                     return "error";
                 }
@@ -146,14 +145,14 @@ public class ReceivingService {
         receivingCondition.setUser_id(user_id);
         receivingCondition.setPhone_number(phone_number);
         receivingCondition.setCoupon_status(0);
-        List<ReceivingCondition> receivingConditionList = receivingManager.queryList(receivingCondition);
+        List<ReceivingCondition> receivingConditionList = receivingDao.queryList(receivingCondition);
         if (receivingConditionList.isEmpty()) {
             return "error";
         }
         List<ReceivingCondition> result = new ArrayList<ReceivingCondition>();
         for (ReceivingCondition receiving : receivingConditionList) {
             yougouRestrictionCondition.setCoupon_stock_id(receiving.getCoupon_stock_id());
-            YougouRestrictionCondition yougouRestriction = yougouRestrictionManager.query(yougouRestrictionCondition);
+            YougouRestrictionCondition yougouRestriction = yougouRestrictionDao.query(yougouRestrictionCondition);
             if (yougouRestriction != null) {
                 result.add(receiving);
             }
@@ -196,14 +195,14 @@ public class ReceivingService {
                 receivingCondition.setExpired_time(expired_time.toString(SysConstants.DATE_FORMAT));
             }
             synchronized (this) {
-                Integer addResult = receivingManager.add(receivingCondition);
+                Integer addResult = receivingDao.add(receivingCondition);
                 if (addResult != 1) throw new RuntimeException("添加领取记录失败");
             }
         }
         synchronized (this) {
             StatCondition statCondition = new StatCondition();
             statCondition.setRelease_id(receivingCondition.getRelease_id());
-            Integer updateResult = statManager.updateRemaining(statCondition);
+            Integer updateResult = statDao.updateRemaining(statCondition);
             Integer stock_count = stock_id_list.split(",").length;
             if (!updateResult.equals(stock_count)) throw new RuntimeException("更新卡券池失败");
         }
@@ -211,7 +210,7 @@ public class ReceivingService {
 
 
     public String update(ReceivingCondition receivingCondition) {
-        Integer updateResult = receivingManager.update(receivingCondition);
+        Integer updateResult = receivingDao.update(receivingCondition);
         if (updateResult != 0) {
             return "ok";
         }
@@ -220,7 +219,7 @@ public class ReceivingService {
 
 
     public String updateUserInfo(ReceivingCondition receivingCondition) {
-        Integer result = receivingManager.updateUserInfo(receivingCondition);
+        Integer result = receivingDao.updateUserInfo(receivingCondition);
         if (result == 0) {
             return "error";
         }
@@ -233,8 +232,8 @@ public class ReceivingService {
             return "error";
         }
         Integer stock_count = stock_id_list.split(",").length;
-        Integer dayReleaseCount = receivingManager.dayCountByReceiving(receivingCondition);
-        Integer totaReleaselCount = receivingManager.totalCountByReceiving(receivingCondition);
+        Integer dayReleaseCount = receivingDao.dayCountByReceiving(receivingCondition);
+        Integer totaReleaselCount = receivingDao.totalCountByReceiving(receivingCondition);
         Integer dayCount = dayReleaseCount % stock_count == 0 ? dayReleaseCount / stock_count : dayReleaseCount / stock_count + 1;
         Integer totalCount = totaReleaselCount % stock_count == 0 ? totaReleaselCount / stock_count : totaReleaselCount / stock_count + 1;
         Map<String, Integer> resultMap = new HashMap<String, Integer>();
@@ -247,12 +246,12 @@ public class ReceivingService {
     public String countRemainingRelease(String release_id) {
         StatCondition statCondition = new StatCondition();
         statCondition.setRelease_id(release_id);
-        return statManager.countRemaining(statCondition) + "";
+        return statDao.countRemaining(statCondition) + "";
     }
 
 
     public String verifyYougouCoupon(YougouRestrictionCondition yougouRestrictionCondition) {
-        YougouRestrictionCondition result = yougouRestrictionManager.query(yougouRestrictionCondition);
+        YougouRestrictionCondition result = yougouRestrictionDao.query(yougouRestrictionCondition);
         if (result == null) {
             return "error";
         }

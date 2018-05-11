@@ -2,10 +2,10 @@ package cn.com.lixihao.couponapi.service;
 
 import cn.com.lixihao.couponapi.constants.ApiConstants;
 import cn.com.lixihao.couponapi.constants.SysConstants;
+import cn.com.lixihao.couponapi.dao.EntranceDao;
 import cn.com.lixihao.couponapi.entity.condition.EntranceCondition;
 import cn.com.lixihao.couponapi.entity.result.*;
-import cn.com.lixihao.couponapi.manager.EntranceManager;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -21,14 +21,14 @@ import java.util.List;
 public class EntranceService {
 
     @Autowired
-    private EntranceManager entranceManager;
+    private EntranceDao entranceDao;
     @Autowired
     private ReleaseService releaseService;
     @Autowired
     ShardedJedisPool shardedJedisPool;
 
     public EntranceResponse get(EntranceCondition condition) {
-        return entranceManager.get(condition);
+        return entranceDao.get(condition);
     }
 
     public String entrance(EntranceCondition condition) {
@@ -40,7 +40,7 @@ public class EntranceService {
             if (shardedJedis.exists(key)) {
                 release_id_list = shardedJedis.get(key);
             } else {
-                EntranceResponse entranceResponse = entranceManager.get(condition);
+                EntranceResponse entranceResponse = entranceDao.get(condition);
                 if (entranceResponse == null) {
                     throw new RuntimeException("NOT_FOUND");
                 }
@@ -60,8 +60,8 @@ public class EntranceService {
 
     public PageResponse getList(EntranceCondition condition) {
         PageResponse pageResponse = new PageResponse(UnifiedResponse.FAIL, "NOT_FOUND!");
-        List<EntranceResponse> list = entranceManager.getList(condition);
-        Integer total = entranceManager.getCount(condition);
+        List<EntranceResponse> list = entranceDao.getList(condition);
+        Integer total = entranceDao.getCount(condition);
         if (list.size() > 0) {
             List<EntranceResponse> rows = new ArrayList<EntranceResponse>();
             for (EntranceResponse entranceResponse : list) {
@@ -81,7 +81,7 @@ public class EntranceService {
         String time = DateTime.now().toString(SysConstants.DATE_FORMAT);
         condition.update_time = time;
         condition.create_time = time;
-        Integer result = entranceManager.insert(condition);
+        Integer result = entranceDao.insert(condition);
         if (result != 1) {
             throw new RuntimeException("创建入口失败!");
         }
@@ -91,7 +91,7 @@ public class EntranceService {
     public UnifiedResponse update(EntranceCondition condition) {
         String update_time = DateTime.now().toString(SysConstants.DATE_FORMAT);
         condition.setUpdate_time(update_time);
-        Integer result = entranceManager.update(condition);
+        Integer result = entranceDao.update(condition);
         if (result == 0) {
             throw new RuntimeException("更新的入口不存在或数据有误!");
         }
@@ -101,7 +101,7 @@ public class EntranceService {
     }
 
     public UnifiedResponse delete(EntranceCondition condition) {
-        Integer result = entranceManager.delete(condition);
+        Integer result = entranceDao.delete(condition);
         if (result == 0) {
             throw new RuntimeException("删除的入口不存在或数据有误!");
         }

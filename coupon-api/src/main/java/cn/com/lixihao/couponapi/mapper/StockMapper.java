@@ -1,12 +1,12 @@
 package cn.com.lixihao.couponapi.mapper;
 
+import cn.com.lixihao.couponapi.core.mybatis.SqlMapper;
 import cn.com.lixihao.couponapi.entity.condition.StockCondition;
 import cn.com.lixihao.couponapi.entity.result.StockResponse;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@SqlMapper
 public interface StockMapper {
     StockResponse get(StockCondition stockCondition);
 

@@ -10,12 +10,12 @@ import cn.com.lixihao.couponapi.entity.result.ReleaseResponse;
 import cn.com.lixihao.couponapi.entity.result.ReleaseStatusType;
 import cn.com.lixihao.couponapi.entity.result.UnifiedResponse;
 import cn.com.lixihao.couponapi.helper.GenerateIdentifier;
-import cn.com.lixihao.couponapi.manager.ReceivingRestrictionManager;
-import cn.com.lixihao.couponapi.manager.ReleaseManager;
-import cn.com.lixihao.couponapi.manager.StatManager;
-import cn.com.lixihao.couponapi.manager.TemplateManager;
+import cn.com.lixihao.couponapi.dao.ReceivingRestrictionDao;
+import cn.com.lixihao.couponapi.dao.ReleaseDao;
+import cn.com.lixihao.couponapi.dao.StatDao;
+import cn.com.lixihao.couponapi.dao.TemplateDao;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -31,26 +31,26 @@ import java.util.List;
 public class ReleaseService {
 
     @Autowired
-    private ReleaseManager releaseManager;
+    private ReleaseDao releaseDao;
     @Autowired
-    private StatManager statManager;
+    private StatDao statDao;
     @Autowired
-    private TemplateManager templateManager;
+    private TemplateDao templateDao;
     @Autowired
-    private ReceivingRestrictionManager receivingRestrictionManager;
+    private ReceivingRestrictionDao receivingRestrictionDao;
 
     public JSONObject get(ReleaseConditon releaseConditon, String get_type) {
         JSONObject jsonObject = new JSONObject();
-        ReleaseResponse release = releaseManager.get(releaseConditon);
+        ReleaseResponse release = releaseDao.get(releaseConditon);
         if (StringUtils.isEmpty(get_type) || !get_type.equals("WEB")) {
             TemplateCondition tmpTemplate = new TemplateCondition();
             tmpTemplate.release_id = releaseConditon.release_id;
-            TemplateCondition template = templateManager.get(tmpTemplate);
+            TemplateCondition template = templateDao.get(tmpTemplate);
             jsonObject.put("template", template);
         }
         ReceivingRestrictionCondition tmpRestriction = new ReceivingRestrictionCondition();
         tmpRestriction.release_id = release.release_id;
-        ReceivingRestrictionCondition receivingRestriction = receivingRestrictionManager.get(tmpRestriction);
+        ReceivingRestrictionCondition receivingRestriction = receivingRestrictionDao.get(tmpRestriction);
         if (receivingRestriction == null) {
             jsonObject = new JSONObject();
             jsonObject.put("return_code", UnifiedResponse.FAIL);
@@ -70,7 +70,7 @@ public class ReleaseService {
             if (!StringUtils.isBlank(release_id)) {
                 ReleaseConditon conditon = new ReleaseConditon();
                 conditon.release_id = release_id;
-                ReleaseResponse response = releaseManager.get(conditon);
+                ReleaseResponse response = releaseDao.get(conditon);
                 Integer release_status = this.releaseStatus(release_id);
                 response.release_status = release_status;
                 pageList.add(response);
@@ -87,8 +87,8 @@ public class ReleaseService {
 
     public PageResponse getList(ReleaseConditon releaseConditon) {
         PageResponse pageResponse = new PageResponse(UnifiedResponse.FAIL, "NOT_FOUND!");
-        List<ReleaseResponse> pageList = releaseManager.getList(releaseConditon);
-        Integer total = releaseManager.getCount(releaseConditon);
+        List<ReleaseResponse> pageList = releaseDao.getList(releaseConditon);
+        Integer total = releaseDao.getCount(releaseConditon);
         if (pageList.size() > 0) {
             for (ReleaseResponse releaseResponse : pageList) {
                 releaseResponse.release_status = this.releaseStatus(releaseResponse.release_id);
@@ -109,20 +109,20 @@ public class ReleaseService {
         String release_id = GenerateIdentifier.generateReleaseId();
         //创建模板
         templateCondition.release_id = release_id;
-        int templateResult = templateManager.insert(templateCondition);
+        int templateResult = templateDao.insert(templateCondition);
         if (templateResult != 1) {
             return new UnifiedResponse(UnifiedResponse.FAIL, "添加投放策略失败,请检查数据重试!");
         }
         //添加投放策略记录
         releaseConditon.release_id = release_id;
         releaseConditon.release_status = 1;
-        int releaseResult = releaseManager.insert(releaseConditon);
+        int releaseResult = releaseDao.insert(releaseConditon);
         if (releaseResult != 1) {
             throw new RuntimeException("添加投放策略失败,请检查数据重试!");
         }
         //创建领取限制记录
         restrictionCondition.release_id = releaseConditon.release_id;
-        int receivingReuslt = receivingRestrictionManager.insert(restrictionCondition);
+        int receivingReuslt = receivingRestrictionDao.insert(restrictionCondition);
         if (receivingReuslt != 1) {
             throw new RuntimeException("添加领取限制失败,请检查数据重试!");
         }
@@ -133,7 +133,7 @@ public class ReleaseService {
             statCondition.coupon_stock_id = couponStockId;
             statCondition.release_id = releaseConditon.release_id;
             statCondition.remaining_count = releaseConditon.release_count;
-            int result = statManager.insert(statCondition);
+            int result = statDao.insert(statCondition);
             if (result != 1) {
                 throw new RuntimeException("添加投放策略失败,请检查数据重试!");
             }
@@ -143,35 +143,35 @@ public class ReleaseService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UnifiedResponse delete(ReleaseConditon releaseConditon) {
-        ReleaseResponse releaseResponse = releaseManager.get(releaseConditon);
+        ReleaseResponse releaseResponse = releaseDao.get(releaseConditon);
         int status = this.releaseStatus(releaseResponse.release_id);
         if (status != ReleaseStatusType.NO_RELEASE) {
             return new UnifiedResponse(UnifiedResponse.FAIL, "该策略处于投放状态,不可删除!");
         }
         //删除策略记录
-        Integer releaseResult = releaseManager.delete(releaseConditon);
+        Integer releaseResult = releaseDao.delete(releaseConditon);
         if (releaseResult == 0) {
             throw new RuntimeException("策略记录删除失败!");
         }
         //删除策略对应的模板
         TemplateCondition templateCondition = new TemplateCondition();
         templateCondition.release_id = releaseConditon.release_id;
-        templateCondition = templateManager.get(templateCondition);
-        Integer templateResult = templateManager.delete(templateCondition);
+        templateCondition = templateDao.get(templateCondition);
+        Integer templateResult = templateDao.delete(templateCondition);
         if (templateResult == 0) {
             throw new RuntimeException("策略对应的模板删除失败!");
         }
         //删除领取限制记录
         ReceivingRestrictionCondition restrictionCondition = new ReceivingRestrictionCondition();
         restrictionCondition.release_id = releaseConditon.release_id;
-        Integer receivingResult = receivingRestrictionManager.delete(restrictionCondition);
+        Integer receivingResult = receivingRestrictionDao.delete(restrictionCondition);
         if (receivingResult == 0) {
             throw new RuntimeException("领取限制记录删除失败!");
         }
         //删除剩余量记录
         StatCondition statCondition = new StatCondition();
         statCondition.release_id = releaseResponse.release_id;
-        Integer statResult = statManager.delete(statCondition);
+        Integer statResult = statDao.delete(statCondition);
         if (statResult == 0) {
             throw new RuntimeException("剩余量记录删除失败!信息: " + statCondition);
         }
@@ -183,13 +183,13 @@ public class ReleaseService {
     public UnifiedResponse update(ReleaseConditon releaseConditon
             , TemplateCondition templateCondition
             , ReceivingRestrictionCondition restrictionCondition) {
-        ReleaseResponse releaseResponse = releaseManager.get(releaseConditon);
+        ReleaseResponse releaseResponse = releaseDao.get(releaseConditon);
         int status = this.releaseStatus(releaseResponse.release_id);
         if (status != ReleaseStatusType.NO_RELEASE) {
             return new UnifiedResponse(UnifiedResponse.FAIL, "该策略处于投放状态,不可修改!");
         }
         //修改策略记录
-        Integer releaseResult = releaseManager.update(releaseConditon);
+        Integer releaseResult = releaseDao.update(releaseConditon);
         if (releaseResult == 0) {
             throw new RuntimeException("策略记录修改失败!");
         }
@@ -198,13 +198,13 @@ public class ReleaseService {
         TemplateCondition originalTemplate = new TemplateCondition();
         originalTemplate.release_id = releaseConditon.release_id;
         //originalTemplate = templateDao.get(templateCondition);
-        Integer templateResult = templateManager.update(templateCondition);
+        Integer templateResult = templateDao.update(templateCondition);
         if (templateResult == 0) {
             throw new RuntimeException("策略对应的模板修改失败!");
         }
         //修改领取限制记录
         restrictionCondition.release_id = releaseConditon.release_id;
-        Integer receivingReuslt = receivingRestrictionManager.update(restrictionCondition);
+        Integer receivingReuslt = receivingRestrictionDao.update(restrictionCondition);
         if (receivingReuslt == 0) {
             throw new RuntimeException("修改领取限制失败,请检查数据重试!");
         }
@@ -212,7 +212,7 @@ public class ReleaseService {
         String[] newStockIds = StringUtils.split(releaseConditon.stock_id_list, ",");
         StatCondition statOldCondition = new StatCondition();
         statOldCondition.release_id = releaseConditon.release_id;
-        Integer statOldResult = statManager.delete(statOldCondition);
+        Integer statOldResult = statDao.delete(statOldCondition);
         if (statOldResult == 0) {
             throw new RuntimeException("剩余量记录删除失败!信息: " + statOldCondition);
         }
@@ -221,7 +221,7 @@ public class ReleaseService {
             statCondition.coupon_stock_id = coupon_stock_id;
             statCondition.release_id = releaseConditon.release_id;
             statCondition.remaining_count = releaseConditon.release_count;
-            Integer statResult = statManager.insert(statCondition);
+            Integer statResult = statDao.insert(statCondition);
             if (statResult != 1) {
                 throw new RuntimeException("剩余量记录添加失败!信息: " + statCondition);
             }
@@ -234,7 +234,7 @@ public class ReleaseService {
         if (releaseConditon.release_status == null) {
             releaseConditon.release_status = 2;
         }
-        Integer result = releaseManager.update(releaseConditon);
+        Integer result = releaseDao.update(releaseConditon);
         if (result == 1) {
             unifiedResponse.setReturn_code(UnifiedResponse.SUCCESS);
             unifiedResponse.setReturn_value("ok");
@@ -246,7 +246,7 @@ public class ReleaseService {
         DateTime now = DateTime.now();
         ReleaseConditon release = new ReleaseConditon();
         release.release_id = release_id;
-        ReleaseResponse releaseResponse = releaseManager.get(release);
+        ReleaseResponse releaseResponse = releaseDao.get(release);
         Integer status = releaseResponse.release_status;
         if (status != ReleaseStatusType.EIIECTIVE) {
             return status;  //暂停投放
@@ -264,7 +264,7 @@ public class ReleaseService {
         }
         StatCondition statCondition = new StatCondition();
         statCondition.release_id = releaseResponse.release_id;
-        List<StatCondition> list = statManager.getList(statCondition);
+        List<StatCondition> list = statDao.getList(statCondition);
         for (StatCondition tmpStat : list) {
             if (tmpStat.getRemaining_count() == 0) {
                 return ReleaseStatusType.END;
@@ -275,7 +275,7 @@ public class ReleaseService {
 
     public Integer getCount(ReleaseConditon releaseConditon) {
 
-        return releaseManager.getCount(releaseConditon);
+        return releaseDao.getCount(releaseConditon);
     }
 
 }

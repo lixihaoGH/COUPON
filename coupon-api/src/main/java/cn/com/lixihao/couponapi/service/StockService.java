@@ -8,11 +8,11 @@ import cn.com.lixihao.couponapi.entity.result.PageResponse;
 import cn.com.lixihao.couponapi.entity.result.StockResponse;
 import cn.com.lixihao.couponapi.entity.result.UnifiedResponse;
 import cn.com.lixihao.couponapi.helper.GenerateIdentifier;
-import cn.com.lixihao.couponapi.manager.StatManager;
-import cn.com.lixihao.couponapi.manager.StockManager;
-import cn.com.lixihao.couponapi.manager.YougouRestrictionManager;
+import cn.com.lixihao.couponapi.dao.StatDao;
+import cn.com.lixihao.couponapi.dao.StockDao;
+import cn.com.lixihao.couponapi.dao.YougouRestrictionDao;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,11 +26,11 @@ import java.util.List;
 public class StockService {
 
     @Autowired
-    private StockManager stockManager;
+    private StockDao stockDao;
     @Autowired
-    private YougouRestrictionManager yougouRestrictionManager;
+    private YougouRestrictionDao yougouRestrictionDao;
     @Autowired
-    private StatManager statManager;
+    private StatDao statDao;
 
     public JSONObject get(StockCondition stockCondition, Integer type) {
         JSONObject jsonObject = new JSONObject();
@@ -39,17 +39,17 @@ public class StockService {
             if (type == 1) {
                 YougouRestrictionCondition yougouCondition = new YougouRestrictionCondition();
                 yougouCondition.coupon_stock_id = stockCondition.coupon_stock_id;
-                yougouCondition = yougouRestrictionManager.get(yougouCondition);
+                yougouCondition = yougouRestrictionDao.get(yougouCondition);
                 jsonObject.put("yougou_restriction", yougouCondition);
                 jsonObject.put("return_code", UnifiedResponse.SUCCESS);
                 jsonObject.put("return_value", "ok");
                 return jsonObject;
             }
         }
-        StockResponse stockResponse = stockManager.get(stockCondition);
+        StockResponse stockResponse = stockDao.get(stockCondition);
         YougouRestrictionCondition yougouCondition = new YougouRestrictionCondition();
         yougouCondition.coupon_stock_id = stockResponse.coupon_stock_id;
-        YougouRestrictionCondition yougouRestrictionResponse = yougouRestrictionManager.get(yougouCondition);
+        YougouRestrictionCondition yougouRestrictionResponse = yougouRestrictionDao.get(yougouCondition);
         stockResponse.preferential_amount = stockResponse.preferential_amount / 100;
         yougouRestrictionResponse.reach_amount = yougouRestrictionResponse.reach_amount / 100;
         jsonObject.put("coupon_stock", stockResponse);
@@ -61,8 +61,8 @@ public class StockService {
 
     public PageResponse getList(StockCondition stockCondition) {
         PageResponse pageResponse = new PageResponse(UnifiedResponse.FAIL, "NOT_FOUND!");
-        List<StockResponse> list = stockManager.getList(stockCondition);
-        Integer total = stockManager.getCount(stockCondition);
+        List<StockResponse> list = stockDao.getList(stockCondition);
+        Integer total = stockDao.getCount(stockCondition);
         if (list.size() > 0) {
             pageResponse.setRows(list);
             pageResponse.setTotal(total);
@@ -81,7 +81,7 @@ public class StockService {
             if (!StringUtils.isBlank(stock_id)) {
                 StockCondition condition = new StockCondition();
                 condition.coupon_stock_id = stock_id;
-                StockResponse response = stockManager.get(condition);
+                StockResponse response = stockDao.get(condition);
                 list.add(response);
             }
         }
@@ -106,8 +106,8 @@ public class StockService {
         String coupon_stock_id = GenerateIdentifier.generateCouponStockId(yougouCondition.selected_goods_category == null ? "0" : yougouCondition.selected_goods_category);
         stockCondition.coupon_stock_id = coupon_stock_id;
         yougouCondition.coupon_stock_id = coupon_stock_id;
-        Integer stockResult = stockManager.insert(stockCondition);
-        Integer yougouResult = yougouRestrictionManager.insert(yougouCondition);
+        Integer stockResult = stockDao.insert(stockCondition);
+        Integer yougouResult = yougouRestrictionDao.insert(yougouCondition);
         if (stockResult != 1 || yougouResult != 1) {
             throw new RuntimeException("创建红包批次失败! " + stockCondition);
         }
@@ -122,8 +122,8 @@ public class StockService {
         }
         YougouRestrictionCondition yougouCondition = new YougouRestrictionCondition();
         yougouCondition.coupon_stock_id = stockCndition.coupon_stock_id;
-        Integer yougouResult = yougouRestrictionManager.delete(yougouCondition);
-        Integer stockResult = stockManager.delete(stockCndition);
+        Integer yougouResult = yougouRestrictionDao.delete(yougouCondition);
+        Integer stockResult = stockDao.delete(stockCndition);
         if (yougouResult == 0 || stockResult == 0) {
             throw new RuntimeException("删除失败!该红包不存在或数据有误!");
         }
@@ -134,8 +134,8 @@ public class StockService {
     public UnifiedResponse updateYougou(StockCondition stockCondition, YougouRestrictionCondition yougouCondition) {
         UnifiedResponse unifiedResponse = null;
         yougouCondition.coupon_stock_id = stockCondition.coupon_stock_id;
-        Integer stockResult = stockManager.update(stockCondition);
-        Integer yougouResult = yougouRestrictionManager.update(yougouCondition);
+        Integer stockResult = stockDao.update(stockCondition);
+        Integer yougouResult = yougouRestrictionDao.update(yougouCondition);
         if (stockResult == 0 || yougouResult == 0) {
             throw new RuntimeException("更新失败!该红包不存在或数据有误!");
         }
@@ -145,14 +145,14 @@ public class StockService {
     }
 
     public Integer getCount(StockCondition stockCondition) {
-        return stockManager.getCount(stockCondition);
+        return stockDao.getCount(stockCondition);
     }
 
     public UnifiedResponse checkReleaseStatus(String coupon_stock_id) {
         UnifiedResponse unifiedResponse;
         StatCondition statCondition = new StatCondition();
         statCondition.coupon_stock_id = coupon_stock_id;
-        Integer result = statManager.getCount(statCondition);
+        Integer result = statDao.getCount(statCondition);
         if (result > 0) {
             unifiedResponse = new UnifiedResponse(UnifiedResponse.FAIL, "该红包已加入投放策略!");
         } else {

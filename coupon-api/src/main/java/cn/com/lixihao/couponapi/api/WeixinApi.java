@@ -6,7 +6,7 @@ import com.hiveview.commons.http.HiveHttpEntityType;
 import com.hiveview.commons.http.HiveHttpGet;
 import com.hiveview.commons.http.HiveHttpPost;
 import com.hiveview.commons.http.HiveHttpResponse;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

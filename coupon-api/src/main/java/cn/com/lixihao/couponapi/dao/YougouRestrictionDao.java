@@ -1,34 +1,33 @@
-package cn.com.lixihao.couponapi.manager;
+package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition;
-import cn.com.lixihao.couponapi.mapper.YougouRestrictionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
-public class YougouRestrictionManager extends BaseManager {
+@Repository("yougouRestrictionDao")
+public class YougouRestrictionDao extends BaseDao {
 
     @Autowired
-    private YougouRestrictionMapper mapper;
+    YougouRestrictionDao yougouRestrictionDao;
 
     public YougouRestrictionCondition get(YougouRestrictionCondition condition) {
-        return mapper.get(condition);
+        return yougouRestrictionDao.get(condition);
     }
 
     public Integer insert(YougouRestrictionCondition condition) {
-        return mapper.insert(condition);
+        return yougouRestrictionDao.insert(condition);
     }
 
     public Integer delete(YougouRestrictionCondition condition) {
-        return mapper.delete(condition);
+        return yougouRestrictionDao.delete(condition);
     }
 
     public Integer update(YougouRestrictionCondition condition) {
-        return mapper.update(condition);
+        return yougouRestrictionDao.update(condition);
     }
 
     public YougouRestrictionCondition query(YougouRestrictionCondition condition) {
-        return mapper.query(condition);
+        return yougouRestrictionDao.query(condition);
     }
 
 }

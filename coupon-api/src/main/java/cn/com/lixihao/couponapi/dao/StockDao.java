@@ -1,41 +1,40 @@
-package cn.com.lixihao.couponapi.manager;
+package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.StockCondition;
 import cn.com.lixihao.couponapi.entity.result.StockResponse;
-import cn.com.lixihao.couponapi.mapper.StockMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Service
-public class StockManager extends BaseManager {
+@Repository("stockDao")
+public class StockDao extends BaseDao {
 
     @Autowired
-    private StockMapper stockMapper;
+    StockDao stockDao;
 
     public StockResponse get(StockCondition stockcondition) {
-        return stockMapper.get(stockcondition);
+        return stockDao.get(stockcondition);
     }
 
     public List<StockResponse> getList(StockCondition stockCondition) {
-        return stockMapper.getList(stockCondition);
+        return stockDao.getList(stockCondition);
     }
 
     public Integer insert(StockCondition stockCondition) {
-        return stockMapper.insert(stockCondition);
+        return stockDao.insert(stockCondition);
     }
 
     public Integer delete(StockCondition stockCondition) {
-        return stockMapper.delete(stockCondition);
+        return stockDao.delete(stockCondition);
     }
 
     public Integer update(StockCondition stockCondition) {
-        return stockMapper.update(stockCondition);
+        return stockDao.update(stockCondition);
     }
 
     public Integer getCount(StockCondition stockCondition) {
-        Integer result = stockMapper.getCount(stockCondition);
+        Integer result = stockDao.getCount(stockCondition);
         if (result == null) {
             result = 0;
         }

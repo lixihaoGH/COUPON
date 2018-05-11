@@ -1,41 +1,40 @@
-package cn.com.lixihao.couponapi.manager;
+package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.ReleaseConditon;
 import cn.com.lixihao.couponapi.entity.result.ReleaseResponse;
-import cn.com.lixihao.couponapi.mapper.ReleaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Service
-public class ReleaseManager extends BaseManager {
+@Repository("releaseDao")
+public class ReleaseDao extends BaseDao {
 
     @Autowired
-    private ReleaseMapper releaseMapper;
+    ReleaseDao releaseDao;
 
     public ReleaseResponse get(ReleaseConditon conditon) {
-        return releaseMapper.get(conditon);
+        return releaseDao.get(conditon);
     }
 
     public List<ReleaseResponse> getList(ReleaseConditon conditon) {
-        return releaseMapper.getList(conditon);
+        return releaseDao.getList(conditon);
     }
 
     public Integer insert(ReleaseConditon conditon) {
-        return releaseMapper.insert(conditon);
+        return releaseDao.insert(conditon);
     }
 
     public Integer update(ReleaseConditon conditon) {
-        return releaseMapper.update(conditon);
+        return releaseDao.update(conditon);
     }
 
     public Integer delete(ReleaseConditon conditon) {
-        return releaseMapper.delete(conditon);
+        return releaseDao.delete(conditon);
     }
 
     public Integer getCount(ReleaseConditon conditon) {
-        Integer result = releaseMapper.getCount(conditon);
+        Integer result = releaseDao.getCount(conditon);
         if (result == null) {
             result = 0;
         }

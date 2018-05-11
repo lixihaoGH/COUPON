@@ -1,10 +1,8 @@
-package cn.com.lixihao.couponapi.manager;
+package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.TradeCondition;
-import cn.com.lixihao.couponapi.mapper.TradeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +10,14 @@ import java.util.List;
 /**
  * create by lixihao on 2017/12/25.
  **/
-@Service
-public class TradeManager extends BaseManager {
+@Repository("tradeDao")
+public class TradeDao extends BaseDao {
 
     @Autowired
-    TradeMapper tradeMapper;
+    TradeDao tradeDao;
 
     public Integer add(TradeCondition tradeCondition) {
-        Integer result = tradeMapper.add(tradeCondition);
+        Integer result = tradeDao.add(tradeCondition);
         if (result == null) {
             return 0;
         }
@@ -27,7 +25,7 @@ public class TradeManager extends BaseManager {
     }
 
     public Integer update(TradeCondition tradeCondition) {
-        Integer result = tradeMapper.update(tradeCondition);
+        Integer result = tradeDao.update(tradeCondition);
         if (result == null) {
             return 0;
         }
@@ -35,11 +33,11 @@ public class TradeManager extends BaseManager {
     }
 
     public TradeCondition get(TradeCondition tradeCondition) {
-        return tradeMapper.get(tradeCondition);
+        return tradeDao.get(tradeCondition);
     }
 
     public List<TradeCondition> getList(TradeCondition tradeCondition) {
-        List<TradeCondition> result = tradeMapper.getList(tradeCondition);
+        List<TradeCondition> result = tradeDao.getList(tradeCondition);
         if (result == null) {
             return new ArrayList<TradeCondition>();
         }
@@ -47,7 +45,7 @@ public class TradeManager extends BaseManager {
     }
 
     public Integer getCount(TradeCondition tradeCondition) {
-        Integer result = tradeMapper.getCount(tradeCondition);
+        Integer result = tradeDao.getCount(tradeCondition);
         if (result == null) {
             return 0;
         }
@@ -55,7 +53,7 @@ public class TradeManager extends BaseManager {
     }
 
     public Integer getTotalPayment(TradeCondition tradeCondition) {
-        Integer totalpayment = tradeMapper.getTotalPayment(tradeCondition);
+        Integer totalpayment = tradeDao.getTotalPayment(tradeCondition);
         if (totalpayment == null) {
             return 0;
         }

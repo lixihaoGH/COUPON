@@ -1,19 +1,17 @@
-package cn.com.lixihao.couponapi.manager;
+package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.TemplateCondition;
-import cn.com.lixihao.couponapi.mapper.TemplateMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
-@Service
-public class TemplateManager extends BaseManager {
+@Repository("templateDao")
+public class TemplateDao extends BaseDao {
 
     @Autowired
-    private TemplateMapper templateMapper;
+    TemplateDao templateDao;
 
     public TemplateCondition get(TemplateCondition templateCondition) {
-        return templateMapper.get(templateCondition);
+        return templateDao.get(templateCondition);
     }
 
 /*    public List<TemplateCondition> getList(TemplateCondition templateCondition) {
@@ -21,15 +19,15 @@ public class TemplateManager extends BaseManager {
     }*/
 
     public Integer insert(TemplateCondition templateCondition) {
-        return templateMapper.insert(templateCondition);
+        return templateDao.insert(templateCondition);
     }
 
     public Integer delete(TemplateCondition templateCondition) {
-        return templateMapper.delete(templateCondition);
+        return templateDao.delete(templateCondition);
     }
 
     public Integer update(TemplateCondition templateCondition) {
-        return templateMapper.update(templateCondition);
+        return templateDao.update(templateCondition);
     }
 
 

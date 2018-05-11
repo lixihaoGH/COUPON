@@ -1,18 +1,17 @@
-package cn.com.lixihao.couponapi.manager;
+package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.ReceivingRestrictionCondition;
-import cn.com.lixihao.couponapi.mapper.ReceivingRestrictionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
-public class ReceivingRestrictionManager extends BaseManager {
+@Repository("receivingRestrictionDao")
+public class ReceivingRestrictionDao extends BaseDao {
 
     @Autowired
-    private ReceivingRestrictionMapper receivingRestrictionMapper;
+    ReceivingRestrictionDao receivingRestrictionDao;
 
     public ReceivingRestrictionCondition get(ReceivingRestrictionCondition conditon) {
-        return receivingRestrictionMapper.get(conditon);
+        return receivingRestrictionDao.get(conditon);
     }
 
 /*    public List<ReceivingRestrictionCondition> getList(ReceivingRestrictionCondition conditon) {
@@ -20,15 +19,15 @@ public class ReceivingRestrictionManager extends BaseManager {
     }*/
 
     public Integer insert(ReceivingRestrictionCondition conditon) {
-        return receivingRestrictionMapper.insert(conditon);
+        return receivingRestrictionDao.insert(conditon);
     }
 
     public Integer update(ReceivingRestrictionCondition conditon) {
-        return receivingRestrictionMapper.update(conditon);
+        return receivingRestrictionDao.update(conditon);
     }
 
     public Integer delete(ReceivingRestrictionCondition conditon) {
-        return receivingRestrictionMapper.delete(conditon);
+        return receivingRestrictionDao.delete(conditon);
     }
 
 }

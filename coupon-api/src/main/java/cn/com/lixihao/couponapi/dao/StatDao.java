@@ -1,42 +1,41 @@
-package cn.com.lixihao.couponapi.manager;
+package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.StatCondition;
 import cn.com.lixihao.couponapi.entity.condition.StatisticsCondition;
 import cn.com.lixihao.couponapi.entity.result.StatisticsResponse;
-import cn.com.lixihao.couponapi.mapper.StatMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Service
-public class StatManager extends BaseManager {
+@Repository("statDao")
+public class StatDao extends BaseDao {
 
     @Autowired
-    private StatMapper statMapper;
+    StatDao statDao;
 
     public StatCondition get(StatCondition statCondition) {
-        return statMapper.get(statCondition);
+        return statDao.get(statCondition);
     }
 
     public List<StatCondition> getList(StatCondition statCondition) {
-        return statMapper.getList(statCondition);
+        return statDao.getList(statCondition);
     }
 
     public Integer insert(StatCondition statCondition) {
-        return statMapper.insert(statCondition);
+        return statDao.insert(statCondition);
     }
 
     public Integer delete(StatCondition statCondition) {
-        return statMapper.delete(statCondition);
+        return statDao.delete(statCondition);
     }
 
     public Integer updateRemaining(StatCondition statCondition) {
-        return statMapper.updateRemaining(statCondition);
+        return statDao.updateRemaining(statCondition);
     }
 
     public Integer getCount(StatCondition statCondition) {
-        Integer result = statMapper.getCount(statCondition);
+        Integer result = statDao.getCount(statCondition);
         if (result == null) {
             result = 0;
         }
@@ -44,7 +43,7 @@ public class StatManager extends BaseManager {
     }
 
     public Integer countRemaining(StatCondition statCondition) {
-        Integer result = statMapper.countRemaining(statCondition);
+        Integer result = statDao.countRemaining(statCondition);
         if (result == null) {
             result = 0;
         }
@@ -52,7 +51,7 @@ public class StatManager extends BaseManager {
     }
 
     public List<StatisticsResponse> getStatisticsList(StatisticsCondition statisticsCondition) {
-        return statMapper.getStatisticsList(statisticsCondition);
+        return statDao.getStatisticsList(statisticsCondition);
     }
 
 }

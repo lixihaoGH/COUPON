@@ -3,9 +3,9 @@ package cn.com.lixihao.couponapi.service;
 import cn.com.lixihao.couponapi.api.SmsApi;
 import cn.com.lixihao.couponapi.entity.condition.SmsCaptchaCondition;
 import cn.com.lixihao.couponapi.entity.result.SmsCaptchaResponse;
-import cn.com.lixihao.couponapi.manager.SmsCaptchaManager;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.StringUtils;
+import cn.com.lixihao.couponapi.dao.SmsCaptchaDao;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class SmsCaptchaService {
     @Autowired
     ShardedJedisPool shardedJedisPool;
     @Autowired
-    SmsCaptchaManager smsCaptchaManager;
+    SmsCaptchaDao smsCaptchaDao;
 
 
     private final String captchaKeyPrefix = "coupon_sms_captcha_";
@@ -81,7 +81,7 @@ public class SmsCaptchaService {
             }
             SmsCaptchaCondition smsCaptchaCondition = new SmsCaptchaCondition();
             smsCaptchaCondition.setPhone(phone);
-            SmsCaptchaCondition getResult = smsCaptchaManager.get(smsCaptchaCondition);
+            SmsCaptchaCondition getResult = smsCaptchaDao.get(smsCaptchaCondition);
             if (getResult == null) {
                 return this.returnResponse(SmsCaptchaResponse.SmsCaptchaMessageEnum.EMPTY_ERROR);
             }
@@ -106,17 +106,17 @@ public class SmsCaptchaService {
         smsCaptchaCondition.setSms_captcha(smsCaptcha);
         smsCaptchaCondition.setPhone(phone);
         smsCaptchaCondition.setExpiry_time(System.currentTimeMillis() + effectiveMinutes * 60 * 1000);
-        SmsCaptchaCondition getResult = smsCaptchaManager.get(smsCaptchaCondition);
+        SmsCaptchaCondition getResult = smsCaptchaDao.get(smsCaptchaCondition);
         if (getResult == null) {
-            return smsCaptchaManager.add(smsCaptchaCondition);
+            return smsCaptchaDao.add(smsCaptchaCondition);
         }
-        return smsCaptchaManager.update(smsCaptchaCondition);
+        return smsCaptchaDao.update(smsCaptchaCondition);
     }
 
     public Integer delete(Long expiryTime) {
         SmsCaptchaCondition smsCaptchaCondition = new SmsCaptchaCondition();
         smsCaptchaCondition.setExpiry_time(expiryTime);
-        return smsCaptchaManager.delete(smsCaptchaCondition);
+        return smsCaptchaDao.delete(smsCaptchaCondition);
     }
 
     private SmsCaptchaResponse returnResponse(SmsCaptchaResponse.SmsCaptchaMessageEnum messageEnum) {

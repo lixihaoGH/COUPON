@@ -1,14 +1,14 @@
 package cn.com.lixihao.couponapi.mapper;
 
+import cn.com.lixihao.couponapi.core.mybatis.SqlMapper;
 import cn.com.lixihao.couponapi.entity.condition.ReceivingCondition;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * create by lixihao on 2017/12/25.
  **/
-@Repository
+@SqlMapper
 public interface ReceivingMapper {
 
     Integer add(ReceivingCondition receivingCondition);

@@ -2,7 +2,7 @@ package cn.com.lixihao.couponapi.helper;
 
 import cn.com.lixihao.couponapi.constants.SysConstants;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 public class GenerateIdentifier {

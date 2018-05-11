@@ -1,17 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="mod_baby_admin" version="2.5">
-  <display-name>couponapi</display-name>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         metadata-complete="true">
+  <display-name>lixihao-couponapi</display-name>
+
+  <!--加载spring配置文件-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath*:context/*.xml</param-value>
+    <param-value>
+      classpath*:context/*.xml
+    </param-value>
   </context-param>
+
+  <!--记录日志-->
+  <context-param>
+    <param-name>log4jConfiguration</param-name>
+    <param-value>/WEB-INF/classes/log4j2.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
+  </listener>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  <listener>
-    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-  </listener>
-
   <!-- 每60s扫描配置文件 -->
   <context-param>
     <param-name>log4jRefreshInterval</param-name>
@@ -43,22 +54,39 @@
   </filter>
   <filter-mapping>
     <filter-name>etagFilter</filter-name>
-    <servlet-name>dispatcher</servlet-name>
+    <servlet-name>springServletPortal</servlet-name>
   </filter-mapping>
 
+
+  <!-- 必须在所有的过滤器之前,否则报错 -->
   <servlet>
-    <servlet-name>dispatcher</servlet-name>
+    <servlet-name>springServletPortal</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath*:context/applicationContext-mvc.xml</param-value>
+      <param-value>/WEB-INF/springmvc-servlet-couponapi.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
+    <!--<async-supported>true</async-supported>-->
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>springServletPortal</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DruidStatView</servlet-name>
+    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>dispatcher</servlet-name>
-    <url-pattern>*.json</url-pattern>
-    <url-pattern>*.xml</url-pattern>
-    <url-pattern>*.html</url-pattern>
+    <servlet-name>DruidStatView</servlet-name>
+    <url-pattern>/druid/*</url-pattern>
   </servlet-mapping>
+
+
+  <session-config>
+    <session-timeout>18000</session-timeout>
+  </session-config>
+
 </web-app>

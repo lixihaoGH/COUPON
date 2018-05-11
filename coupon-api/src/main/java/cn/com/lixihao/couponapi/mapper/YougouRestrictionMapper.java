@@ -1,9 +1,9 @@
 package cn.com.lixihao.couponapi.mapper;
 
+import cn.com.lixihao.couponapi.core.mybatis.SqlMapper;
 import cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition;
-import org.springframework.stereotype.Repository;
 
-@Repository
+@SqlMapper
 public interface YougouRestrictionMapper {
     YougouRestrictionCondition get(YougouRestrictionCondition condition);
 

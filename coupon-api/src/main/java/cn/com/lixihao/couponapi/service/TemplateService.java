@@ -2,7 +2,7 @@ package cn.com.lixihao.couponapi.service;
 
 import cn.com.lixihao.couponapi.constants.ApiConstants;
 import cn.com.lixihao.couponapi.entity.condition.TemplateCondition;
-import cn.com.lixihao.couponapi.manager.TemplateManager;
+import cn.com.lixihao.couponapi.dao.TemplateDao;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import redis.clients.jedis.ShardedJedisPool;
 public class TemplateService {
 
     @Autowired
-    private TemplateManager templateManager;
+    private TemplateDao templateDao;
     @Autowired
     ShardedJedisPool shardedJedisPool;
 
@@ -25,7 +25,7 @@ public class TemplateService {
             if (shardedJedis.exists(key)) {
                 return shardedJedis.get(key);
             }
-            TemplateCondition response = templateManager.get(condition);
+            TemplateCondition response = templateDao.get(condition);
             if (response == null) {
                 response = new TemplateCondition(0);
             } else {
