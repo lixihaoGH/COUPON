@@ -1,7 +1,7 @@
 package cn.com.lixihao.couponapi.service;
 
+import cn.com.lixihao.couponapi.dao.BindingDao;
 import cn.com.lixihao.couponapi.entity.condition.BindingCondition;
-import cn.com.lixihao.couponapi.manager.BindingManager;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BindingService {
 
     @Autowired
-    BindingManager bindingDao;
+    BindingDao bindingDao;
 
     public String get(BindingCondition bindingCondition) {
         return JSONObject.toJSONString(bindingDao.get(bindingCondition));

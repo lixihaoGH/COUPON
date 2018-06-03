@@ -858,7 +858,7 @@
                 <coupon.api.host>http://116.196.99.250:8081/</coupon.api.host>
                 <coupon.web.host>http://116.196.99.250:8082/</coupon.web.host>
                 <coupon.mgr.host>http://116.196.99.250:8080/</coupon.mgr.host>
-                <yougou.host></yougou.host>
+                <yougou.host>http://60.206.137.159</yougou.host>
                 <coupon.upload.path>/home/lixihao/coupon/images/</coupon.upload.path>
                 <coupon.webaccess.path>http://116.196.99.250/</coupon.webaccess.path>
                 <!-- 关键依赖数据与账号 -->

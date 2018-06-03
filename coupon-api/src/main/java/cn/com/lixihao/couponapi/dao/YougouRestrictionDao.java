@@ -1,6 +1,7 @@
 package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.YougouRestrictionCondition;
+import cn.com.lixihao.couponapi.mapper.YougouRestrictionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -8,26 +9,26 @@ import org.springframework.stereotype.Repository;
 public class YougouRestrictionDao extends BaseDao {
 
     @Autowired
-    YougouRestrictionDao yougouRestrictionDao;
+    YougouRestrictionMapper yougouRestrictionMapper;
 
     public YougouRestrictionCondition get(YougouRestrictionCondition condition) {
-        return yougouRestrictionDao.get(condition);
+        return yougouRestrictionMapper.get(condition);
     }
 
     public Integer insert(YougouRestrictionCondition condition) {
-        return yougouRestrictionDao.insert(condition);
+        return yougouRestrictionMapper.insert(condition);
     }
 
     public Integer delete(YougouRestrictionCondition condition) {
-        return yougouRestrictionDao.delete(condition);
+        return yougouRestrictionMapper.delete(condition);
     }
 
     public Integer update(YougouRestrictionCondition condition) {
-        return yougouRestrictionDao.update(condition);
+        return yougouRestrictionMapper.update(condition);
     }
 
     public YougouRestrictionCondition query(YougouRestrictionCondition condition) {
-        return yougouRestrictionDao.query(condition);
+        return yougouRestrictionMapper.query(condition);
     }
 
 }

@@ -3,7 +3,9 @@ var updateSelectedCouponFlag = false;
 var release_id;
 var release_update_url = '';
 var release_update_id = '';
-var img_webaccess_path = 'http://116.196.99.250/';
+//var img_webaccess_path = 'http://localhost:8082/pic/';    //开发本地路径
+var img_webaccess_path = 'http://static.weixin.pthv.gitv.tv/images/coupon/';    //测试路径
+//var img_webaccess_path = 'http://static.weixin.coupon.pthv.gitv.tv/images/';  //正式路径
 $(function () {
     // 点击策略状态查询投放策略信息
     searchByReleaseStatus();
@@ -1365,14 +1367,30 @@ function updateNewRelease() {
     });
 }
 
+// 清空新建投放策略页面
+function clearCreateReleaseInfo() {
+    $('input[name="release_name"]').val('');
+    $('#release_start_time').datetimebox('setValue', '');
+    $('#release_end_time').datetimebox('setValue', '');
+    $('input[name="release_count"]').val('');
+    $('#day-max-input').val('1');
+    $('#day-amount-input').val('1');
+    $('input[name="share_page_title"]').val('');
+    $('input[name="goto_page_bgcolor"]').val('');
+    $('input[name="goto_page_url"]').val('');
+    $('input[name="share_title"]').val('');
+    $('textarea[name="share_desc"]').val('');
+    $('#saveSuccessCouponList').bootstrapTable('');
+}
+
 //上传图片
 function uploadFile(file_id) {
     var file_upload = '#' + file_id + '_file_upload';
     var file_type = '';
     $(file_upload).uploadify(
         {
-            'swf': ctx + '/res/uploadify/uploadify.swf',
-            'uploader': ctx + '/action/upload',
+            'swf': '/res/uploadify/uploadify.swf',
+            'uploader': '/action/upload',
             'height': 25,
             'width': 120,
             'auto': true,
@@ -1428,22 +1446,6 @@ function uploadFile(file_id) {
         });
 }
 
-// 清空新建投放策略页面
-function clearCreateReleaseInfo() {
-    $('input[name="release_name"]').val('');
-    $('#release_start_time').datetimebox('setValue', '');
-    $('#release_end_time').datetimebox('setValue', '');
-    $('input[name="release_count"]').val('');
-    $('#day-max-input').val('1');
-    $('#day-amount-input').val('1');
-    $('input[name="share_page_title"]').val('');
-    $('input[name="goto_page_bgcolor"]').val('');
-    $('input[name="goto_page_url"]').val('');
-    $('input[name="share_title"]').val('');
-    $('textarea[name="share_desc"]').val('');
-    $('#saveSuccessCouponList').bootstrapTable('');
-}
-
 // 信息提示弹框及执行操作， 包含错误信息提示、删除提示、停发提示、取消停发提示
 function operateButton() {
     $.get(release_update_url, function (data) {
@@ -1456,12 +1458,12 @@ function operateButton() {
             initReleaseListTable();
         }
     });
-    /* console.log(new Date().getTime());
-     console.log('operateButton----2');
-     if (cnt === 0) { //莫名的会多次执行click事件的方法,随着表格初始化次数的增加而增加次数,
-         cnt++;       //(猜测是模态框使用方式的问题,再次初始化未销毁上次生成的,导致实际存在多个),以此解决
+   /* console.log(new Date().getTime());
+    console.log('operateButton----2');
+    if (cnt === 0) { //莫名的会多次执行click事件的方法,随着表格初始化次数的增加而增加次数,
+        cnt++;       //(猜测是模态框使用方式的问题,再次初始化未销毁上次生成的,导致实际存在多个),以此解决
 
-     }*/
+    }*/
     /*var cnt = 0;
     // 点击确认时，向后台发送请求
     console.log('operateButton----1');

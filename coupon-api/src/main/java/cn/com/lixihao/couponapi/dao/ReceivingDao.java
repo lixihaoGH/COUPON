@@ -1,6 +1,7 @@
 package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.ReceivingCondition;
+import cn.com.lixihao.couponapi.mapper.ReceivingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,10 +15,10 @@ import java.util.List;
 public class ReceivingDao extends BaseDao {
 
     @Autowired
-    ReceivingDao receivingDao;
+    ReceivingMapper receivingMapper;
 
     public Integer add(ReceivingCondition receivingCondition) {
-        Integer result = receivingDao.add(receivingCondition);
+        Integer result = receivingMapper.add(receivingCondition);
         if (result == null) {
             return 0;
         }
@@ -25,7 +26,7 @@ public class ReceivingDao extends BaseDao {
     }
 
     public List<ReceivingCondition> getExpiredList(ReceivingCondition receivingCondition) {
-        List<ReceivingCondition> result = receivingDao.getExpiredList(receivingCondition);
+        List<ReceivingCondition> result = receivingMapper.getExpiredList(receivingCondition);
         if (result == null) {
             return new ArrayList<ReceivingCondition>();
         }
@@ -33,7 +34,7 @@ public class ReceivingDao extends BaseDao {
     }
 
     public List<ReceivingCondition> getEffectiveList(ReceivingCondition receivingCondition) {
-        List<ReceivingCondition> result = receivingDao.getEffectiveList(receivingCondition);
+        List<ReceivingCondition> result = receivingMapper.getEffectiveList(receivingCondition);
         if (result == null) {
             return new ArrayList<ReceivingCondition>();
         }
@@ -41,7 +42,7 @@ public class ReceivingDao extends BaseDao {
     }
 
     public List<ReceivingCondition> queryList(ReceivingCondition receivingCondition) {
-        List<ReceivingCondition> result = receivingDao.queryList(receivingCondition);
+        List<ReceivingCondition> result = receivingMapper.queryList(receivingCondition);
         if (result == null) {
             return new ArrayList<ReceivingCondition>();
         }
@@ -49,11 +50,11 @@ public class ReceivingDao extends BaseDao {
     }
 
     public ReceivingCondition get(ReceivingCondition receivingCondition) {
-        return receivingDao.get(receivingCondition);
+        return receivingMapper.get(receivingCondition);
     }
 
     public Integer update(ReceivingCondition receivingCondition) {
-        Integer result = receivingDao.update(receivingCondition);
+        Integer result = receivingMapper.update(receivingCondition);
         if (result == null) {
             return 0;
         }
@@ -61,7 +62,7 @@ public class ReceivingDao extends BaseDao {
     }
 
     public Integer updateUserInfo(ReceivingCondition receivingCondition) {
-        Integer result = receivingDao.updateUserInfo(receivingCondition);
+        Integer result = receivingMapper.updateUserInfo(receivingCondition);
         if (result == null) {
             return 0;
         }
@@ -69,7 +70,7 @@ public class ReceivingDao extends BaseDao {
     }
 
     public Integer dayCountByReceiving(ReceivingCondition receivingCondition) {
-        Integer result = receivingDao.dayCountByReceiving(receivingCondition);
+        Integer result = receivingMapper.dayCountByReceiving(receivingCondition);
         if (result == null) {
             return 0;
         }
@@ -77,7 +78,7 @@ public class ReceivingDao extends BaseDao {
     }
 
     public Integer totalCountByReceiving(ReceivingCondition receivingCondition) {
-        Integer result = receivingDao.totalCountByReceiving(receivingCondition);
+        Integer result = receivingMapper.totalCountByReceiving(receivingCondition);
         if (result == null) {
             return 0;
         }

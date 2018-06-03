@@ -18,7 +18,7 @@
 
     <meta charset="utf-8"/>
 
-    <title>卡券营销系统</title>
+    <title>微信营销系统</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
@@ -29,6 +29,7 @@
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
 
 
+    <!-- 红包系统 -->
     <%--<link href="${ctx}/res/css/bootstrap-modal.css"/>--%>
     <script type="text/javascript" src="${ctx}/res/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/res/js/coupon/serverDomain.js"></script>
@@ -163,13 +164,19 @@
     <div id="sidebarcontainer" style="width: 200px;float: left; position: fixed">
         <ul id="accordion" class="accordion">
             <li>
-                <div class="link">红包管理<i class="fa fa-chevron-down"></i></div>
+                <div class="link weixin">公众号管理<i class="fa fa-chevron-down"></i></div>
                 <ul class="submenu">
-                    <li><a href="${ctx}/coupon/create">新建红包</a></li>
-                    <li><a href="${ctx}/coupon/getList">红包列表</a></li>
-                    <li><a href="${ctx}/coupon/releaseList">策略列表</a></li>
-                    <li><a href="${ctx}/coupon/entrance">入口管理</a></li>
-                    <li><a href="${ctx}/coupon/statistics">红包统计</a></li>
+                    <li class="edit"><a href="${ctx}/weixin/edit">公众号管理</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="link coupon">红包管理<i class="fa fa-chevron-down"></i></div>
+                <ul class="submenu">
+                    <li class="create"><a href="${ctx}/coupon/create">新建红包</a></li>
+                    <li class="getList"><a href="${ctx}/coupon/getList">红包列表</a></li>
+                    <li class="releaseList"><a href="${ctx}/coupon/releaseList">策略列表</a></li>
+                    <li class="entrance"><a href="${ctx}/coupon/entrance">入口管理</a></li>
+                    <li class="statistics"><a href="${ctx}/coupon/statistics">红包统计</a></li>
                 </ul>
             </li>
 
@@ -233,7 +240,7 @@
 
     <div class="text-center">
 
-        2018 &copy; 版权所属 <a href="#" title="卡券营销系统" target="_blank">卡券营销系统</a>
+        2017 &copy; 版权所属 <a href="http://www.hiveview.com/" title="家视天下" target="_blank">家视天下</a>
 
     </div>
 

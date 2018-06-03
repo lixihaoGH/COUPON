@@ -24,6 +24,7 @@ public class ReceivingDaoTest extends BaseTest {
     public void add() {
         ReceivingCondition receivingCondition = new ReceivingCondition();
         receivingCondition.setCoupon_stock_id("dsadad");
+        receivingCondition.setCoupon_stock_name("kaquan");
         receivingCondition.setPhone_number("+86 1515212121");
         receivingCondition.setReceiving_time(new DateTime().toString("yyyy-MM-dd HH:mm:ss"));
         receivingCondition.setCoupon_status(2);
@@ -43,7 +44,7 @@ public class ReceivingDaoTest extends BaseTest {
     @Test
     public void get() {
         ReceivingCondition receivingCondition = new ReceivingCondition();
-        receivingCondition.setCoupon_id("sdadadasdas");
+        receivingCondition.setCoupon_id("sdadadasdas0");
         ReceivingCondition result = receivingDao.get(receivingCondition);
         System.out.println(result.toString());
     }
@@ -52,7 +53,7 @@ public class ReceivingDaoTest extends BaseTest {
     @Test
     public void update() {
         ReceivingCondition receivingCondition = new ReceivingCondition();
-        receivingCondition.setCoupon_id("sdadadasdas");
+        receivingCondition.setCoupon_id("sdadadasdas0");
         receivingCondition.setCoupon_status(2);
         receivingDao.update(receivingCondition);
     }

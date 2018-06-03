@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by haoweige on 2017/8/30.
- */
+
 @RestController
 @RequestMapping(value = "/relay")
 public class RelayController {

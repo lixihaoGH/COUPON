@@ -11,9 +11,7 @@ import redis.clients.jedis.ShardedJedisPool;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by haoweige on 2017/8/29.
- */
+
 @Service
 public class WeixinService {
 

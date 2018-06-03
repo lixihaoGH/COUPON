@@ -1,6 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<c:set var="ctx" value="${pageContext.servletContext.contextPath}"></c:set>
 <html lang="en">
 
 <head>
@@ -17,9 +15,9 @@
     <link type="text/css" rel="stylesheet"
           href="${pageContext.servletContext.contextPath}/res/css/bootstrap.css">
     <link type="text/css" rel="stylesheet"
-          href="${pageContext.servletContext.contextPath}/res/css/coupon/common.css">
+          href="${pageContext.servletContext.contextPath}/static/css/coupon/common.css">
     <link type="text/css" rel="stylesheet"
-          href="${pageContext.servletContext.contextPath}/res/css/coupon/couponPolicy.css">
+          href="${pageContext.servletContext.contextPath}/static/css/coupon/couponPolicy.css">
     <link type="text/css" rel="stylesheet"
           href="${pageContext.servletContext.contextPath}/res/css/easyui.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/res/uploadify/uploadify.css">
@@ -33,9 +31,7 @@
             src="${pageContext.servletContext.contextPath}/res/bootstrap/bootstrap-table.js"></script>
     <script type="text/javascript"
             src="${pageContext.servletContext.contextPath}/res/bootstrap/bootstrap-table-zh-CN.js"></script>
-    <script type="text/javascript">
 
-    </script>
     <%--
         <link href="${pageContext.servletContext.contextPath}/res/css/bootstrap-modal.css">
         <script type="text/javascript" src="${pageContext.servletContext.contextPath}/res/js/bootstrap-modal.js"></script>

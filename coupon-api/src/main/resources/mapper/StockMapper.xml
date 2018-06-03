@@ -54,7 +54,7 @@
 
     <insert id="insert" parameterType="cn.com.lixihao.couponapi.entity.condition.StockCondition"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT
+        INSERT INTO
             <include refid="tableName" />
         ( coupon_stock_id,coupon_stock_name,create_time,preferential_type,preferential_amount,discount)
         VALUES

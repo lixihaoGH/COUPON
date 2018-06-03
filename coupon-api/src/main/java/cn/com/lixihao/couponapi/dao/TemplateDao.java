@@ -1,6 +1,7 @@
 package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.TemplateCondition;
+import cn.com.lixihao.couponapi.mapper.TemplateMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -8,10 +9,10 @@ import org.springframework.stereotype.Repository;
 public class TemplateDao extends BaseDao {
 
     @Autowired
-    TemplateDao templateDao;
+    TemplateMapper templateMapper;
 
     public TemplateCondition get(TemplateCondition templateCondition) {
-        return templateDao.get(templateCondition);
+        return templateMapper.get(templateCondition);
     }
 
 /*    public List<TemplateCondition> getList(TemplateCondition templateCondition) {
@@ -19,15 +20,15 @@ public class TemplateDao extends BaseDao {
     }*/
 
     public Integer insert(TemplateCondition templateCondition) {
-        return templateDao.insert(templateCondition);
+        return templateMapper.insert(templateCondition);
     }
 
     public Integer delete(TemplateCondition templateCondition) {
-        return templateDao.delete(templateCondition);
+        return templateMapper.delete(templateCondition);
     }
 
     public Integer update(TemplateCondition templateCondition) {
-        return templateDao.update(templateCondition);
+        return templateMapper.update(templateCondition);
     }
 
 

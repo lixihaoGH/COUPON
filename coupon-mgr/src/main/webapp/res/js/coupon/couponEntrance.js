@@ -22,9 +22,10 @@ $(function () {
 });
 
 function initEntranceList() {
+
     $('#couponEntranceList').bootstrapTable('destroy');
     $('#couponEntranceList').bootstrapTable({
-        url: serverDomain + '/entrance/getList.json',         //请求后台的URL（*）
+        url: serverDomain + '/entrance/getList.json?token=' + getMD5(),         //请求后台的URL（*）
         method: 'get',                      //请求方式（*）
         toolbar: '#toolbar',                //工具按钮用哪个容器
         striped: true,                      //是否显示行间隔色
@@ -90,7 +91,7 @@ function searchByEntranceName() {
         var entranceName = $('#entranceNameInput').val();
         $('#couponEntranceList').bootstrapTable('destroy');
         $('#couponEntranceList').bootstrapTable({
-            url: serverDomain + '/entrance/getList.json',
+            url: serverDomain + '/entrance/getList.json?token=' + getMD5(),
             method: 'get',
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -216,7 +217,7 @@ function saveUpdateButton() {
         keyboard: false,
         width: 310
     });
-    var url = serverDomain + '/entrance/update.json';
+    var url = serverDomain + '/entrance/update.json?token=' + getMD5();
     var entranceName = $('input[name="update_entrance_name"]').val();
     if (entranceName == '') {
         alert('入口名称不能为空，请填写后保存');
@@ -253,7 +254,7 @@ function saveCouponEntranceName() {
             alert('入口名称不能为空，请填写后保存');
         } else {
             console.log(entranceName);
-            var url = serverDomain + '/entrance/save.json';
+            var url = serverDomain + '/entrance/save.json?token=' + getMD5();
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -369,7 +370,7 @@ function initReleaseList() {
 }
 
 function deleteEntrance() {
-    var url = serverDomain + '/entrance/delete.json?id=' + delete_entrance_id;
+    var url = serverDomain + '/entrance/delete.json?id=' + delete_entrance_id + '&token=' + getMD5();
     var dialog = $('#deletePolicy').modal({
         backdrop: 'static',
         keyboard: false,
@@ -461,7 +462,7 @@ function saveSelectFunction() {
             console.log('add: release_id_list:' + release_id_list);
             release_id_list = old_release_id_list + release_id_list;
             console.log('release_id_list:' + release_id_list);
-            var url = serverDomain + "/entrance/update.json";
+            var url = serverDomain + "/entrance/update.json?token=" + getMD5();
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -603,7 +604,7 @@ function releaseSearch() {
 
 function refreshList() {
     $('#couponPolicyList').bootstrapTable('destroy');
-    var getEntranceUrl = serverDomain + '/entrance/get.json?id=' + entranceId;
+    var getEntranceUrl = serverDomain + '/entrance/get.json?id=' + entranceId + '&token=' + getMD5();
     $.get(getEntranceUrl, function (data) {
         if (!data.entrance.hasOwnProperty('release_id_list')) {
 
@@ -713,7 +714,7 @@ function entranceErrorModalButton() {
         }
     }
     console.log(release_id_list);
-    var url = serverDomain + '/entrance/update.json';
+    var url = serverDomain + '/entrance/update.json?token=' + getMD5();
     $.ajax({
         type: 'POST',
         url: url,
@@ -804,4 +805,24 @@ function onChooseReleaseModalClose() {
     $('#choosePolicyModal').on('hidden.bs.modal', function () {
         //refreshList();
     });
+}
+
+function getMD5() {
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth()+1;
+    var day = date.getDate();
+    var hours = date.getHours();
+    if(month<10) {
+        month= "" + 0 + month;
+    }
+    if (day.length < 2) {
+        day = '0' + day;
+    }
+    var dateStr = "" + year + month + day + hours;
+    console.log(dateStr);
+    var str = date + "hiveview-weixinapi";
+    var md5 = hex_md5(str);
+    console.log(md5);
+    return md5;
 }

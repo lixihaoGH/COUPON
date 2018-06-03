@@ -325,10 +325,11 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>context/*.xml</include>
-                    <include>cn/com/lixihao/couponapi/mapper/*.xml</include>
+                    <include>cn/com/lixihao/couponapi/**/**/*.xml</include>
                     <include>conf/*.properties</include>
                     <include>conf/*.xml</include>
                     <include>*.xml</include>
+                    <include>**/*.xml</include>
                 </includes>
             </resource>
         </resources>

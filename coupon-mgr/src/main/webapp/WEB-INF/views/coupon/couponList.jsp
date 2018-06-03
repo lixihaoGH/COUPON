@@ -13,7 +13,7 @@
     <link type="text/css" rel="stylesheet"
           href="${pageContext.servletContext.contextPath}/res/css/bootstrap.css">
     <link type="text/css" rel="stylesheet"
-          href="${pageContext.servletContext.contextPath}/res/css/coupon/common.css">
+          href="${pageContext.servletContext.contextPath}/static/css/coupon/common.css">
 
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>-->

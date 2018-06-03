@@ -15,11 +15,11 @@
     <link type="text/css" rel="stylesheet"
           href="${pageContext.servletContext.contextPath}/res/css/bootstrap.css">
     <link type="text/css" rel="stylesheet"
-          href="${pageContext.servletContext.contextPath}/res/css/coupon/common.css">
+          href="${pageContext.servletContext.contextPath}/static/css/coupon/common.css">
     <link type="text/css" rel="stylesheet"
           href="${pageContext.servletContext.contextPath}/res/css/easyui.css">
     <link type="text/css" rel="stylesheet"
-          href="${pageContext.servletContext.contextPath}/res/css/coupon/couponPolicy.css">
+          href="${pageContext.servletContext.contextPath}/static/css/coupon/couponPolicy.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/res/uploadify/uploadify.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/res/css/bootstrap-modal.css">
     <script type="text/javascript" src="${pageContext.servletContext.contextPath}/res/js/jquery.easyui.min.js"></script>
@@ -28,11 +28,12 @@
             src="${pageContext.servletContext.contextPath}/res/bootstrap/bootstrap-table.js"></script>
     <script type="text/javascript"
             src="${pageContext.servletContext.contextPath}/res/bootstrap/bootstrap-table-zh-CN.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/res/js/common/md5.js"></script>
     <script type="text/javascript"
             src="${pageContext.servletContext.contextPath}/res/js/coupon/couponEntrance.js"></script>
     <script type="text/javascript" src="${pageContext.servletContext.contextPath}/res/js/bootstrap-modal.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.servletContext.contextPath}/res/js/bootstrap-modalmanager.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/res/js/bootstrap-modalmanager.js"></script>
+
 </head>
 
 <body>
@@ -107,32 +108,32 @@
 <div id="updateNewEntranceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateNewEntranceLabel"
      aria-hidden="true" style="height: 220px;overflow-y: hidden;top: 30%;">
     <div class="modal-dialog" style="margin: 0px 0px 0px 0px;overflow-y: hidden;margin-top: 0px;width: 310px;">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 
-            </button>
-            <h4 class="modal-title" id="updateNewEntranceLabel">
-                修改入口
-            </h4>
-        </div>
-        <div class="modal-body">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div>
-                        <span class="sign">*</span>入口名称
-                        <input type="text" class="form-control coupon-input coupon-common-input"
-                               name="update_entrance_name">
+                </button>
+                <h4 class="modal-title" id="updateNewEntranceLabel">
+                    修改入口
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div>
+                            <span class="sign">*</span>入口名称
+                            <input type="text" class="form-control coupon-input coupon-common-input"
+                                   name="update_entrance_name">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-            </button>
-            <button type="button" class="btn btn-primary" id="updateCouponEntranceName" onclick="saveUpdateButton()">
-                保存
-            </button>
-        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="updateCouponEntranceName" onclick="saveUpdateButton()">
+                    保存
+                </button>
+            </div>
     </div>
 </div>
 <!-- 新建入口模态框-end -->
@@ -172,43 +173,43 @@
      aria-hidden="true" style="top: 50%;left: 50%;height: 650px;overflow-y: visible">
     <div class="modal-dialog my-modal-dialog" style="margin: 0px;height: 600px;">
         <%--<div class="modal-content" style="height: 690px;">--%>
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <div class="modal-header" >
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 
-            </button>
-            <h4 class="modal-title" id="chooseReleasePolicyModal">
-                选择策略
-            </h4>
-        </div>
-        <div class="my-modal-dialog" style="overflow-y: visible;">
-            <div class="test-modal-body test-modal-body-left" style="width: 450px;">
-                <div class="panel panel-default">
-                    <div class="panel-heading">已选</div>
-                    <div class="panel-body" style="height: 540px">
-                        <table id="selectedPolicyList">
-                        </table>
-                        <button type="button" class="btn btn-default btn-primary" id="saveSelectedPolicy">保存
-                        </button>
-                    </div>
-                </div>
+                </button>
+                <h4 class="modal-title" id="chooseReleasePolicyModal">
+                    选择策略
+                </h4>
             </div>
-            <div class="test-modal-body test-modal-body-right" style="width: 500px;">
-                <div class="panel panel-default" style="width: 630px;">
-                    <div class="panel-heading">选择策略</div>
-                    <div class="panel-body" style="height: 540px;width: 630px;">
-                        <div style="margin:0px 0px 10px 0px;">
-                            <span>策略名称:</span>
-                            <input type="text" class="form-control coupon-input coupon-common-input"
-                                   id="policyNameInput">
-                            <button type="button" class="btn btn-default btn-primary" id="policySearchButton">查询
+            <div class="my-modal-dialog" style="overflow-y: visible;">
+                <div class="test-modal-body test-modal-body-left" style="width: 450px;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">已选</div>
+                        <div class="panel-body" style="height: 540px">
+                            <table id="selectedPolicyList">
+                            </table>
+                            <button type="button" class="btn btn-default btn-primary" id="saveSelectedPolicy">保存
                             </button>
                         </div>
-                        <table id="policyList" style="margin-top:10px;">
-                        </table>
+                    </div>
+                </div>
+                <div class="test-modal-body test-modal-body-right" style="width: 500px;">
+                    <div class="panel panel-default" style="width: 630px;">
+                        <div class="panel-heading">选择策略</div>
+                        <div class="panel-body" style="height: 540px;width: 630px;">
+                            <div style="margin:0px 0px 10px 0px;">
+                                <span>策略名称:</span>
+                                <input type="text" class="form-control coupon-input coupon-common-input"
+                                       id="policyNameInput">
+                                <button type="button" class="btn btn-default btn-primary" id="policySearchButton">查询
+                                </button>
+                            </div>
+                            <table id="policyList" style="margin-top:10px;">
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <%--</div>--%>
     </div>
@@ -286,11 +287,12 @@
 <!-- 删除删除提示框弹出层 -->
 
 
+
 <div id="errorMessageDiv" class="modal" tabindex="-1" role="dialog"
      aria-labelledby="errorMessageModal"
      aria-hidden="true" style="height: 207px;top: 30%;left: 50%;">
     <div class="modal-dialog" style="width:280px;height: 140px;">
-        <div class="modal-content" style="top: -30px;bottom: 0px;">
+        <div class="modal-content"  style="top: -30px;bottom: 0px;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 
@@ -312,8 +314,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" class="btn btn-primary" id="entranceErrorModalButton"
-                        onclick="entranceErrorModalButton()">
+                <button type="button" class="btn btn-primary" id="entranceErrorModalButton" onclick="entranceErrorModalButton()">
                     确定
                 </button>
             </div>

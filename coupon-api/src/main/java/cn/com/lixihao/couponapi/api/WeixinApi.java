@@ -16,9 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by haoweige on 2017/8/29.
- */
+
 @Service
 public class WeixinApi {
 

@@ -13,9 +13,9 @@
     <link type="text/css" rel="stylesheet"
           href="${pageContext.servletContext.contextPath}/res/css/bootstrap.css">
     <link type="text/css" rel="stylesheet"
-          href="${pageContext.servletContext.contextPath}/res/css/coupon/common.css">
+          href="${pageContext.servletContext.contextPath}/static/css/coupon/common.css">
     <link type="text/css" rel="stylesheet"
-          href="${pageContext.servletContext.contextPath}/res/css/coupon/createNewCoupon.css">
+          href="${pageContext.servletContext.contextPath}/static/css/coupon/createNewCoupon.css">
     <link type="text/css" rel="stylesheet"
           href="${pageContext.servletContext.contextPath}/res/css/easyui.css">
     <script type="text/javascript" src="${pageContext.servletContext.contextPath}/res/js/jquery.easyui.min.js"></script>

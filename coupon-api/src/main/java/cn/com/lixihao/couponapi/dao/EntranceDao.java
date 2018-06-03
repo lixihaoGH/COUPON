@@ -2,6 +2,7 @@ package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.EntranceCondition;
 import cn.com.lixihao.couponapi.entity.result.EntranceResponse;
+import cn.com.lixihao.couponapi.mapper.EntranceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,30 +12,30 @@ import java.util.List;
 public class EntranceDao extends BaseDao{
 
     @Autowired
-    EntranceDao entranceDao;
+    EntranceMapper entranceMapper;
 
     public EntranceResponse get(EntranceCondition conditon) {
-        return entranceDao.get(conditon);
+        return entranceMapper.get(conditon);
     }
 
     public List<EntranceResponse> getList(EntranceCondition conditon) {
-        return entranceDao.getList(conditon);
+        return entranceMapper.getList(conditon);
     }
 
     public Integer insert(EntranceCondition conditon) {
-        return entranceDao.insert(conditon);
+        return entranceMapper.insert(conditon);
     }
 
     public Integer update(EntranceCondition conditon) {
-        return entranceDao.update(conditon);
+        return entranceMapper.update(conditon);
     }
 
     public Integer delete(EntranceCondition conditon) {
-        return entranceDao.delete(conditon);
+        return entranceMapper.delete(conditon);
     }
 
     public Integer getCount(EntranceCondition conditon) {
-        Integer result = entranceDao.getCount(conditon);
+        Integer result = entranceMapper.getCount(conditon);
         if (result == null) {
             result = 0;
         }

@@ -222,7 +222,7 @@
 
                         <div id="site_statistics_loading">
 
-                            <img src="${ctx}/res/image/loading.gif" alt="loading"/>
+                            <img src="res/image/loading.gif" alt="loading"/>
 
                         </div>
 
@@ -268,7 +268,7 @@
 
                         <div id="site_activities_loading">
 
-                            <img src="${ctx}/res/image/loading.gif" alt="loading"/>
+                            <img src="res/image/loading.gif" alt="loading"/>
 
                         </div>
 
@@ -314,7 +314,7 @@
 
                         <div id="load_statistics_loading">
 
-                            <img src="${ctx}/res/image/loading.gif" alt="loading"/>
+                            <img src="res/image/loading.gif" alt="loading"/>
 
                         </div>
 
@@ -515,7 +515,7 @@
 
                         <div id="region_statistics_loading">
 
-                            <img src="${ctx}/res/image/loading.gif" alt="loading"/>
+                            <img src="res/image/loading.gif" alt="loading"/>
 
                         </div>
 
@@ -1883,7 +1883,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -1903,7 +1903,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -1927,7 +1927,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -1947,7 +1947,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -1971,7 +1971,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -1991,7 +1991,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -2015,7 +2015,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -2032,7 +2032,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -2056,7 +2056,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -2073,7 +2073,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -2097,7 +2097,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -2117,7 +2117,7 @@
 
                                             <div class="span6 user-info">
 
-                                                <img alt="" src="${ctx}/res/image/avatar.png"/>
+                                                <img alt="" src="res/image/avatar.png"/>
 
                                                 <div class="details">
 
@@ -2219,7 +2219,7 @@
 
                                 <li class="in">
 
-                                    <img class="avatar" alt="" src="${ctx}/res/image/avatar1.jpg"/>
+                                    <img class="avatar" alt="" src="res/image/avatar1.jpg"/>
 
                                     <div class="message">
 
@@ -2241,7 +2241,7 @@
 
                                 <li class="out">
 
-                                    <img class="avatar" alt="" src="${ctx}/res/image/avatar2.jpg"/>
+                                    <img class="avatar" alt="" src="res/image/avatar2.jpg"/>
 
                                     <div class="message">
 
@@ -2263,7 +2263,7 @@
 
                                 <li class="in">
 
-                                    <img class="avatar" alt="" src="${ctx}/res/image/avatar1.jpg"/>
+                                    <img class="avatar" alt="" src="res/image/avatar1.jpg"/>
 
                                     <div class="message">
 
@@ -2285,7 +2285,7 @@
 
                                 <li class="out">
 
-                                    <img class="avatar" alt="" src="${ctx}/res/image/avatar3.jpg"/>
+                                    <img class="avatar" alt="" src="res/image/avatar3.jpg"/>
 
                                     <div class="message">
 
@@ -2307,7 +2307,7 @@
 
                                 <li class="in">
 
-                                    <img class="avatar" alt="" src="${ctx}/res/image/avatar3.jpg"/>
+                                    <img class="avatar" alt="" src="res/image/avatar3.jpg"/>
 
                                     <div class="message">
 
@@ -2329,7 +2329,7 @@
 
                                 <li class="out">
 
-                                    <img class="avatar" alt="" src="${ctx}/res/image/avatar1.jpg"/>
+                                    <img class="avatar" alt="" src="res/image/avatar1.jpg"/>
 
                                     <div class="message">
 
@@ -2351,7 +2351,7 @@
 
                                 <li class="in">
 
-                                    <img class="avatar" alt="" src="${ctx}/res/image/avatar3.jpg"/>
+                                    <img class="avatar" alt="" src="res/image/avatar3.jpg"/>
 
                                     <div class="message">
 
@@ -2375,7 +2375,7 @@
 
                                 <li class="out">
 
-                                    <img class="avatar" alt="" src="${ctx}/res/image/avatar1.jpg"/>
+                                    <img class="avatar" alt="" src="res/image/avatar1.jpg"/>
 
                                     <div class="message">
 

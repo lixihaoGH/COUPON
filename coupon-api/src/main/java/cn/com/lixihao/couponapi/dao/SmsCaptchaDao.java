@@ -1,6 +1,7 @@
 package cn.com.lixihao.couponapi.dao;
 
 import cn.com.lixihao.couponapi.entity.condition.SmsCaptchaCondition;
+import cn.com.lixihao.couponapi.mapper.SmsCaptchaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,14 +12,14 @@ import org.springframework.stereotype.Repository;
 public class SmsCaptchaDao extends BaseDao {
 
     @Autowired
-    SmsCaptchaDao smsCaptchaDao;
+    SmsCaptchaMapper smsCaptchaMapper;
 
     public SmsCaptchaCondition get(SmsCaptchaCondition smsCaptchaCondition) {
-        return smsCaptchaDao.get(smsCaptchaCondition);
+        return smsCaptchaMapper.get(smsCaptchaCondition);
     }
 
     public Integer add(SmsCaptchaCondition smsCaptchaCondition) {
-        Integer result = smsCaptchaDao.add(smsCaptchaCondition);
+        Integer result = smsCaptchaMapper.add(smsCaptchaCondition);
         if (result == null) {
             return 0;
         }
@@ -26,7 +27,7 @@ public class SmsCaptchaDao extends BaseDao {
     }
 
     public Integer update(SmsCaptchaCondition smsCaptchaCondition) {
-        Integer result = smsCaptchaDao.update(smsCaptchaCondition);
+        Integer result = smsCaptchaMapper.update(smsCaptchaCondition);
         if (result == null) {
             return 0;
         }
@@ -34,7 +35,7 @@ public class SmsCaptchaDao extends BaseDao {
     }
 
     public Integer delete(SmsCaptchaCondition smsCaptchaCondition) {
-        Integer result = smsCaptchaDao.delete(smsCaptchaCondition);
+        Integer result = smsCaptchaMapper.delete(smsCaptchaCondition);
         if (result == null) {
             return 0;
         }
